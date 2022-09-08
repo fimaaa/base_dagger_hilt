@@ -8,9 +8,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.example.basedagger.R
 import com.example.basedagger.databinding.LayoutBlankBinding
-import com.example.basedagger.utill.getParentActivity
-import com.example.basedagger.utill.login
-import com.example.basedagger.utill.visible
+import com.example.basedagger.extension.getParentActivity
+import com.example.basedagger.extension.login
+import com.example.basedagger.extension.visible
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.net.HttpURLConnection
 import javax.net.ssl.HttpsURLConnection

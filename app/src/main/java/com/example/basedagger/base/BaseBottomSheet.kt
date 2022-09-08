@@ -11,20 +11,18 @@ import com.example.basedagger.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.example.basedagger.utill.getScreenDevice
-import com.example.basedagger.utill.hideKeyboard
+import com.example.basedagger.extension.getScreenDevice
+import com.example.basedagger.extension.hideKeyboard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseBottomSheet<T : ViewBinding, V : BaseViewModel<out Any>>(val isFull: Boolean = false) :
+abstract class BaseBottomSheet<T : ViewBinding, V : BaseViewModel>(private val isFull: Boolean = false) :
     BottomSheetDialogFragment(), CoroutineScope {
 
     private lateinit var job: Job
     lateinit var binding: T
-    private lateinit var rootView: View
-    private val baseViewModel by lazy { getViewModels() }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return if (isFull) {
@@ -57,8 +55,6 @@ abstract class BaseBottomSheet<T : ViewBinding, V : BaseViewModel<out Any>>(val 
     }
 
     protected abstract fun getViewBinding(): T
-
-    abstract fun getViewModels(): V
 
     open fun onInitialization() = Unit
 

@@ -1,4 +1,4 @@
-package com.example.basedagger.utill
+package com.example.basedagger.extension
 
 import android.content.res.Resources
 import android.util.Patterns

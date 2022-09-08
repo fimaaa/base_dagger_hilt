@@ -1,62 +1,44 @@
 package com.example.basedagger.ui.employee
 
-import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import com.example.basedagger.R
-import com.example.basedagger.base.BaseFragment
+import com.example.basedagger.base.BaseBindingFragment
 import com.example.basedagger.base.BaseLoadStateAdapter
 import com.example.basedagger.databinding.FragmentEmployeeBinding
+import com.example.basedagger.extension.*
 import com.example.basedagger.ui.adapter.employee.EmployeePagingAdapter
-import com.example.basedagger.utill.*
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import dagger.hilt.android.AndroidEntryPoint
 import org.jetbrains.anko.appcompat.v7.coroutines.onClose
 import java.net.HttpURLConnection
 
-class EmployeeFragment : BaseFragment() {
-    private val viewModel: EmployeeViewModel by viewModels()
-    private var _binding: FragmentEmployeeBinding? = null
-    val binding get() = _binding!!
+@AndroidEntryPoint
+class EmployeeFragment : BaseBindingFragment<FragmentEmployeeBinding, EmployeeViewModel>(R.layout.fragment_employee), EmployeeNavigator {
+
     private var skeleton: Skeleton? = null
+
+    private val viewModel: EmployeeViewModel by viewModels()
+
+    override fun getViewModels() = viewModel
 
     private val adapter = EmployeePagingAdapter {
         requireContext().showSnackBar(binding.root, it.employee_name, Toast_Default)
+    }.apply {
+        withLoadStateHeaderAndFooter(
+            header = BaseLoadStateAdapter { this.retry() },
+            footer = BaseLoadStateAdapter { this.retry() }
+        )
     }
 
     private val timerSearch = object : CountDownTimer(1000, 1000) {
-        override fun onTick(millisUntilFinished: Long) {
-        }
+        override fun onTick(millisUntilFinished: Long) = Unit
 
         override fun onFinish() {
             searchText()
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        _binding = FragmentEmployeeBinding.inflate(inflater, container, false)
-        binding.data = viewModel
-        return binding.root
-    }
-
-    override fun onInitialization() {
-        binding.apply {
-            rcvExample.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = BaseLoadStateAdapter { adapter.retry() },
-                footer = BaseLoadStateAdapter { adapter.retry() }
-            )
-            skeleton = rcvExample.applySkeleton(R.layout.item_employee_recyclerview)
-            skeleton?.showShimmer = true
         }
     }
 
@@ -65,30 +47,30 @@ class EmployeeFragment : BaseFragment() {
             observe(exampleList) {
                 adapter.submitData(viewLifecycleOwner.lifecycle, it)
             }
+
             adapter.addLoadStateListener { loadState ->
                 binding.apply {
                     blanklayout.gone()
                     rcvExample.visible()
                     when (loadState.source.refresh) {
                         is LoadState.Loading -> {
-                            skeleton?.showSkeleton()
+                            if (adapter.itemCount < 1) skeleton?.showSkeleton()
                         }
                         is LoadState.Error -> {
-                            skeleton?.showOriginal()
+                            if (skeleton?.isSkeleton() == true) skeleton?.showOriginal()
                             val throwable = (loadState.source.refresh as LoadState.Error).error
                             rcvExample.gone()
                             blanklayout.visible()
-                            println("TAG Throwable = $throwable")
                             blanklayout.setType(
-                                ErrorUtils.getErrorThrowableCode(throwable),
-                                ErrorUtils.getErrorThrowableMsg(throwable)
+                                throwable.toThrowableCode(),
+                                throwable.toThrowableMessage().asString(requireContext())
                             )
                             blanklayout.setOnClick(getString(R.string.retry)) {
                                 adapter.retry()
                             }
                         }
                         is LoadState.NotLoading -> {
-                            skeleton?.showOriginal()
+                            if (skeleton?.isSkeleton() == true) skeleton?.showOriginal()
                             if (loadState.source.refresh is LoadState.NotLoading &&
                                 loadState.append.endOfPaginationReached &&
                                 adapter.itemCount < 1
@@ -107,6 +89,10 @@ class EmployeeFragment : BaseFragment() {
 
     override fun onReadyAction() {
         binding.apply {
+            rcvExample.adapter = adapter
+            skeleton = rcvExample.applySkeleton(R.layout.item_employee_recyclerview)
+            skeleton?.showShimmer = true
+
             searchviewEmployee.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     timerSearch.cancel()
@@ -133,7 +119,6 @@ class EmployeeFragment : BaseFragment() {
     private fun searchText() {
         binding.apply {
             rcvExample.scrollToPosition(0)
-            println("TAG Query = ${searchviewEmployee.query}")
             viewModel.search.value = searchviewEmployee.query.toString()
             searchviewEmployee.clearFocus()
         }

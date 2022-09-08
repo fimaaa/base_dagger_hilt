@@ -34,12 +34,16 @@ class ExamplePagingSource(
                 nextKey = null
             )
         } catch (e: IOException) {
+            e.printStackTrace()
             LoadResult.Error(e)
         } catch (e: HttpException) {
+            e.printStackTrace()
             LoadResult.Error(e)
         } catch (e: JsonSyntaxException) {
+            e.printStackTrace()
             LoadResult.Error(e)
         } catch (e: IllegalStateException) {
+            e.printStackTrace()
             LoadResult.Error(e)
         }
     }

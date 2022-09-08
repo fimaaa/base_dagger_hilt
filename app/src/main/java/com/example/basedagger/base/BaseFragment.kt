@@ -1,12 +1,14 @@
 package com.example.basedagger.base
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowManager
+import android.view.*
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import com.example.basedagger.utill.hideKeyboard
+import com.example.basedagger.R
+import com.example.basedagger.extension.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 
@@ -15,9 +17,7 @@ abstract class BaseFragment(
     private val toolbarShow: Boolean = false,
     private val statusBarShow: Boolean = true
 ) : Fragment() {
-
-//    @Inject
-//    lateinit var prefs: PrefManagerImp
+    var loadingDialog = LoadingDialog()
 
     private lateinit var job: Job
     private lateinit var mainView: MainView
@@ -35,18 +35,14 @@ abstract class BaseFragment(
         setStatusBar()
         setHasOptionsMenu(true)
         job = Job()
+        onInitialization()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onInitialization()
         mainView.toolbarVisibility(toolbarShow)
         activity.hideKeyboard(view)
         onObserveAction()
-    }
-
-    override fun onStart() {
-        super.onStart()
         onReadyAction()
     }
 
@@ -75,7 +71,6 @@ abstract class BaseFragment(
         } else {
             if (statusBarShow) {
                 activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-//                activity?.makeStatusBarTransparent()
             } else {
                 activity?.window?.setFlags(
                     WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -93,7 +88,7 @@ abstract class BaseFragment(
         mainView.setCustomToolbar(hasHome, title, menuToolbar)
     }
 
-    fun setOnBackPresed(listener: () -> Unit) {
+    fun setOnBackPressed(listener: () -> Unit) {
         mainView.setCustomOnBackPressed(listener)
     }
 
@@ -104,5 +99,21 @@ abstract class BaseFragment(
     fun changeLanguage(language: String) {
 //        prefs.prefLocale = language
         mainView.changeLanguage(language)
+    }
+
+    class LoadingDialog : DialogFragment() {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            return inflater.inflate(R.layout.basedialog_loading, container, false)
+        }
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
     }
 }

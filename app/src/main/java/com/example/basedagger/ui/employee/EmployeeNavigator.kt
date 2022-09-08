@@ -1,3 +1,5 @@
 package com.example.basedagger.ui.employee
 
-interface EmployeeNavigator
+import com.example.basedagger.base.BaseNavigator
+
+interface EmployeeNavigator : BaseNavigator

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.basedagger.R
 import com.example.basedagger.databinding.ActivityMainBinding
 import com.example.basedagger.di.ExternalData
-import com.example.basedagger.utill.changeStatusBarColor
+import com.example.basedagger.extension.changeStatusBarColor
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), MainView {
         supportActionBar?.title = title
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (menuToolbar != 0) {
             menuInflater.inflate(menuToolbar, menu)
         }
@@ -103,7 +103,5 @@ class MainActivity : AppCompatActivity(), MainView {
         return super.onTouchEvent(event)
     }
 
-    override fun changeLanguage(language: String) {
-//        updateLocale(Locale(language))
-    }
+    override fun changeLanguage(language: String) = Unit
 }

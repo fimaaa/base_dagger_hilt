@@ -20,7 +20,8 @@
             android:name="com.example.basedagger.base.MainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

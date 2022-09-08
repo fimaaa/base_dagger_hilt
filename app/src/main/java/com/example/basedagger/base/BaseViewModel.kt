@@ -1,28 +1,31 @@
 package com.example.basedagger.base
 
 import androidx.annotation.CallSuper
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.basedagger.data.base.Resource
 import io.reactivex.disposables.CompositeDisposable
-import java.lang.ref.WeakReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel<N>() : ViewModel() {
+abstract class BaseViewModel : ViewModel(), CoroutineScope {
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main + Dispatchers.IO
 
-    private var mNavigator: WeakReference<N>? = null
     private val mCompositeDisposable = CompositeDisposable()
+    val statusViewModel = MutableLiveData<Resource<Boolean>>()
 
     @CallSuper
     override fun onCleared() {
         super.onCleared()
         mCompositeDisposable.dispose()
+        job.cancel()
     }
 
     var compositeDisposable = mCompositeDisposable
 
-    var navigator: N?
-        get() {
-            return mNavigator?.get()
-        }
-        set(value) {
-            mNavigator = WeakReference<N>(value)
-        }
+    lateinit var navigator: BaseNavigator
 }

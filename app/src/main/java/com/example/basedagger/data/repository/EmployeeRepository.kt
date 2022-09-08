@@ -1,37 +1,19 @@
 package com.example.basedagger.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.liveData
-import com.example.basedagger.data.datasource.ExamplePagingSource
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import com.example.basedagger.data.model.Employee
-import com.example.basedagger.data.source.dao.EmployeeDao
-import com.example.basedagger.data.source.endpoint.EmployeeApi
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class EmployeeRepository @Inject constructor(
-    private val exampleDao: EmployeeDao,
-    private val movieApi: EmployeeApi
-) {
-    suspend fun addToFavorite(example: Employee.Data) = exampleDao.addExample(example)
-    fun getFavoriteMovies() = exampleDao.getAllExample()
-    suspend fun checkMovie(id: String) = exampleDao.checkExample(id)
-    suspend fun removeFromFavorite(id: String) {
-        exampleDao.removeExample(id)
-    }
+interface EmployeeRepository {
+    suspend fun addToFavorite(example: Employee.Data)
+
+    fun getFavoriteMovies(): LiveData<MutableList<Employee.Data>>
+
+    suspend fun checkMovie(id: String): Int
+
+    suspend fun removeFromFavorite(id: String)
 
     fun getExampleDataset(
         search: String?
-    ) =
-        Pager(
-            config = PagingConfig(
-                pageSize = 30,
-                maxSize = 100,
-                enablePlaceholders = false,
-                prefetchDistance = 10
-            ),
-            pagingSourceFactory = { ExamplePagingSource(movieApi, search) }
-        ).liveData
+    ): LiveData<PagingData<Employee.Data>>
 }

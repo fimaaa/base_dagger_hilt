@@ -3,6 +3,9 @@
     <string name="error_search_notfound">%1$s Not Found</string>
     <string name="error_unauthorized">Session Timeout</string>
 
+    <string name="success_default">Success</string>
+
+    <string name="loading_default">Loading...</string>
 
     <string name="login">Log In</string>
     <string name="retry">Retry</string>

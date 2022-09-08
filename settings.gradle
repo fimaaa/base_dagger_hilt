@@ -1,2 +1,3 @@
 rootProject.name = "base_dagger_hilt"
 include ':app'
+include ':common'

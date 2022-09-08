@@ -6,17 +6,17 @@ import com.google.gson.annotations.SerializedName
 data class BaseResponse<T>(
 
     @SerializedName("status")
-    val status: Boolean?,
+    val status: Boolean = false,
 
     @SerializedName("data")
     val data: T,
 
     @SerializedName("message")
-    val message: String?,
+    val message: String = "Not Found",
 
     @SerializedName("statusCode")
-    val statusCode: Int?,
+    val statusCode: Int = 404,
 
     @SerializedName("meta")
-    val meta: Meta?
+    val meta: Meta? = null
 )

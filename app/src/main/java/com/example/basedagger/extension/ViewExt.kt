@@ -1,4 +1,4 @@
-package com.example.basedagger.utill
+package com.example.basedagger.extension
 
 import android.content.Context
 import android.content.ContextWrapper
@@ -30,7 +30,7 @@ fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
 
-fun View.safeOnClikListener(
+fun View.safeOnClickListener(
     defaultInterval: Int = 1000,
     listener: () -> Unit
 ) {
@@ -135,6 +135,28 @@ private fun getDeepChildOffset(
         return
     }
     getDeepChildOffset(mainParent, parentGroup.parent, parentGroup, accumulatedOffset)
+}
+
+fun ViewGroup.changeSize(width: Int? = null, heigt: Int? = null) {
+    val param = layoutParams
+    width?.let { param.width = it }
+    heigt?.let { param.height = it }
+    layoutParams = param
+}
+
+fun View.safeOnClikListener(
+    defaultInterval: Int = 1000,
+    listener: () -> Unit
+) {
+    var lastTimeClicked: Long = 0
+
+    this.onClick {
+        if (SystemClock.elapsedRealtime() - lastTimeClicked < defaultInterval) {
+            return@onClick
+        }
+        lastTimeClicked = SystemClock.elapsedRealtime()
+        listener()
+    }
 }
 
 fun ViewGroup.ChangeSize(width: Int? = null, heigt: Int? = null) {

@@ -4,12 +4,41 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 abstract class BasePermissionFragment(toolbar: Boolean) :
     BaseFragment(toolbar) {
+
+    val reqPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if (it) {
+            // Good pass
+            onPermissionsGranted(0)
+        } else {
+            // Failed pass
+            AlertDialog.Builder(requireActivity())
+                .setTitle("Notice")
+                .setMessage("Permission access needed")
+                .setPositiveButton(
+                    "Allow"
+                ) { _, _ ->
+                    val intent = Intent()
+                    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    intent.addCategory(Intent.CATEGORY_DEFAULT)
+                    intent.data = Uri.parse("package:${requireActivity().packageName}")
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+                    startActivity(intent)
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
