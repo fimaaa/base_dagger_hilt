@@ -1,69 +1,110 @@
+//plugins {
+//    id 'com.android.application'
+//    id 'org.jetbrains.kotlin.android'
+//}
+//
+//apply from: "${project.rootDir}/ktlint.gradle"
+//apply from: "${project.rootDir}/jacoco.gradle"
+//
+//android {
+//    namespace 'com.baseapp.daggerhilt'
+//    compileSdk 33
+//
+//    defaultConfig {
+//        applicationId "com.baseapp.daggerhilt"
+//        minSdk 24
+//        targetSdk 33
+//        versionCode 1
+//        versionName "1.0"
+//
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//    }
+//
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+//    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+//    kotlinOptions {
+//        jvmTarget = '1.8'
+//    }
+//
+//    buildFeatures {
+//        dataBinding true
+//    }
+//    buildFeatures {
+//        viewBinding true
+//    }
+//}
+//
+//dependencies {
+//
+//    implementation 'androidx.core:core-ktx:1.9.0'
+//    implementation 'androidx.appcompat:appcompat:1.6.0'
+//    implementation 'com.google.android.material:material:1.7.0'
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+//}
+
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id "org.jetbrains.kotlin.plugin.parcelize"
-    id "androidx.navigation.safeargs.kotlin"
-    id 'dagger.hilt.android.plugin'
-    id 'com.google.dagger.hilt.android'
     id 'org.sonarqube'
-    id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
+//    id 'com.google.gms.google-services'
+//    id 'com.google.firebase.crashlytics'
     id 'jacoco'
 }
-apply from: "$project.rootDir/ktlint.gradle"
-apply from: "$project.rootDir/jacoco.gradle"
 
-def versionMajor = 1
-def versionMinor = 0
-def versionPatch = 0
+apply from: "${project.rootDir}/common/android_common.gradle"
+apply from: "${project.rootDir}/common/android_core_dependencies.gradle"
+apply from: "${project.rootDir}/ktlint.gradle"
+apply from: "${project.rootDir}/jacoco.gradle"
 
 android {
-    compileSdkVersion Release.maxSDK
-    buildToolsVersion '23.0.3'
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/license.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/notice.txt', 'META-INF/ASL2.0', 'META-INF/*.kotlin_module']
+        }
+    }
 
     defaultConfig {
-        applicationId "com.example.basedagger"
-        minSdkVersion Release.minSDK
-        targetSdkVersion Release.maxSDK
-        multiDexEnabled true
-        versionCode Release.versionCode
-        versionName Release.versionAppName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary true
-        multiDexEnabled true
-
-        ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        applicationId "com.baseapp.daggerhilt"
+        externalNativeBuild {
+            cmake {
+                cppFlags ''
+            }
         }
-
-        testInstrumentationRunner "com.example.basedagger.HiltTestRunner"
     }
 
     buildTypes {
         release {
             resValue "string", "app_name", "$appName"
             buildConfigField "String", "VARIANT", "\"release\""
-            minifyEnabled true
-            debuggable false
-            testCoverageEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            minifyEnabled true
+//            debuggable false
+//            testCoverageEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         staging {
             resValue "string", "app_name", "$appName-staging"
             buildConfigField "String", "VARIANT", "\"staging\""
             versionNameSuffix "-stage"
-            minifyEnabled false
-            debuggable true
-            testCoverageEnabled true
+//            minifyEnabled false
+//            debuggable true
+//            testCoverageEnabled true
         }
         debug {
             resValue "string", "app_name", "$appName-dev"
             buildConfigField "String", "VARIANT", "\"development\""
             versionNameSuffix "-dev"
-            minifyEnabled false
-            debuggable true
-            testCoverageEnabled true
+//            minifyEnabled false
+//            debuggable true
+//            testCoverageEnabled true
         }
         applicationVariants.all { variant ->
             variant.outputs.each { output ->
@@ -72,26 +113,11 @@ android {
             }
         }
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    buildFeatures {
-        viewBinding true
-    }
-    buildFeatures {
-        dataBinding true
-    }
-    ndkVersion '21.0.6113669'
-    externalNativeBuild {
-        cmake {
-            path 'CMakeLists.txt'
-        }
-    }
+//    externalNativeBuild {
+//        cmake {
+//            path 'CMakeLists.txt'
+//        }
+//    }
 
     testOptions {
         unitTests.returnDefaultValues = true
@@ -101,69 +127,31 @@ android {
             }
         }
     }
-    namespace 'com.example.basedagger'
+//    namespace 'com.example.basedagger'
+    namespace 'com.baseapp.daggerhilt'
 
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/ASL2.0'
-        exclude("META-INF/*.kotlin_module")
-        resources.excludes.add("META-INF/*")
-    }
+//    packagingOptions {
+//        exclude 'META-INF/DEPENDENCIES'
+//        exclude 'META-INF/LICENSE'
+//        exclude 'META-INF/LICENSE.txt'
+//        exclude 'META-INF/license.txt'
+//        exclude 'META-INF/NOTICE'
+//        exclude 'META-INF/NOTICE.txt'
+//        exclude 'META-INF/notice.txt'
+//        exclude 'META-INF/ASL2.0'
+//        exclude("META-INF/*.kotlin_module")
+//        resources.excludes.add("META-INF/*")
+//    }
 }
 
 dependencies {
-    // Default Component
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation LibraryAndroid.kotlinX
-    implementation LibraryAndroid.appCompat
-    implementation LibraryAndroid.constrainLayout
-    implementation LibraryAndroid.googleMaterial
-    implementation LibraryAndroid.recyclerView
-    implementation LibraryAndroid.anko
-    implementation LibraryAndroid.ankoCommon
-    implementation LibraryAndroid.googleAR
-
-    testImplementation LibraryAndroidTesting.jUnit
-    androidTestImplementation LibraryAndroidTesting.jUnitTest
-    androidTestImplementation LibraryAndroidTesting.espresso
-    androidTestImplementation LibraryAndroidTesting.testRunner
-    androidTestImplementation LibraryAndroidTesting.testRules
-
-    // For Robolectric tests.
-    testImplementation LibraryAndroidTesting.daggerHiltTesting
-    // ...with Kotlin.
-    kaptTest LibraryAndroid.daggerHiltCompiler
-    // For instrumented tests.
-    androidTestImplementation LibraryAndroidTesting.daggerHiltTesting
-    // ...with Kotlin.
-    kaptAndroidTest LibraryAndroid.daggerHiltCompiler
-
-    testImplementation LibraryAndroidTesting.truth
-    androidTestImplementation LibraryAndroidTesting.truth
-
-    testImplementation LibraryAndroidTesting.mockitoCore
-    androidTestImplementation LibraryAndroidTesting.mockitoCore
-
-    testImplementation LibraryAndroidTesting.coroutinesTest
-    androidTestImplementation LibraryAndroidTesting.coroutinesTest
-
-    testImplementation LibraryAndroidTesting.archCore
-    androidTestImplementation LibraryAndroidTesting.archCore
-
-    // Dagger Hilt
-    kaptAndroidTest LibraryAndroidTesting.dagger
-    // Hilt dependencies
-    implementation LibraryAndroid.daggerHilt
-    kapt LibraryAndroid.daggerHiltCompiler
-
-    // Check Leak Memory
-    debugImplementation LibraryAndroid.leakCanary
+    implementation project(Modules.common)
+    implementation project(Modules.navigation)
+    implementation project(Modules.featureCrypto)
+    implementation project(Modules.featureEmployee)
+    implementation project(Modules.repository)
+    implementation project(Modules.network)
+    implementation project(Modules.local)
 
     // Networking
     // Retrofit + GSON
@@ -171,57 +159,29 @@ dependencies {
     implementation LibraryAndroid.retrofitConverterGson
     implementation LibraryAndroid.retrofitRX
     implementation LibraryAndroid.retrofitConverterMoshi
-    implementation LibraryAndroid.rxAndroid
-    implementation LibraryAndroid.rxJava
-    implementation LibraryAndroid.okhttpLogging
     implementation LibraryAndroid.retrofitCoroutines
 
+    implementation(platform(LibraryAndroid.okhttpPlatform))
+    implementation LibraryAndroid.okHttp
+    implementation LibraryAndroid.okhttpLogging
+
     // Room
-    implementation LibraryAndroid.roomRuntime
-    kapt LibraryAndroid.roomCompiler
-    implementation LibraryAndroid.room
-    testImplementation LibraryAndroid.roomTesting
-
-    // Lifecycle
-    implementation LibraryAndroid.lifeCycleViewModel
-    implementation LibraryAndroid.lifeCycleLivedata
-    implementation LibraryAndroid.lifeCycleExt
-
-    // DataBinding
-    kapt LibraryAndroid.dataBindingCompiler
-    implementation LibraryAndroid.rxBinding
-
-    // Navigation Component
-    implementation LibraryAndroid.navigationFragment
-    implementation LibraryAndroid.navigationUi
-
-    // Glide
-    implementation LibraryAndroid.glide
-    kapt LibraryAndroid.glideCompiler
-    implementation LibraryAndroid.glideToVector
-
-    // Change Language
-    implementation LibraryAndroid.localeHelper
-
-    // Paging 3
-    implementation LibraryAndroid.paging3
-
+    implementation(LibraryAndroid.roomRuntime)
+    annotationProcessor(LibraryAndroid.roomCompiler)
+    kapt(LibraryAndroid.roomCompiler)
+    implementation(LibraryAndroid.room)
+    testImplementation(LibraryAndroid.roomTesting)
 
     //HTTP Inspector
     debugImplementation LibraryAndroid.chuckerActive
     stagingImplementation LibraryAndroid.chuckerActive
     releaseImplementation LibraryAndroid.chuckerDisable
 
-    // Google
+//    // Google
     implementation LibraryAndroid.gson
     implementation LibraryAndroid.googleAuth
     // Google Ads
     implementation LibraryAndroid.googleAds
-
-
-    // Style
-    implementation LibraryAndroid.skeletonLayout
-    implementation LibraryAndroid.progressButton
 
     // Import the BoM for the Firebase platform
     implementation platform(LibraryAndroid.firebaseBOM)
@@ -229,125 +189,8 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation LibraryAndroid.firebaseCrashlytics
     implementation LibraryAndroid.firebaseAnalytics
-
-    /**
-     Compose
-     **/
-    implementation LibraryAndroid.composeUI
-    // Tooling support (Previews, etc.)
-    implementation LibraryAndroid.composeUITool
-    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation LibraryAndroid.composeFoundation
-    // Material Design
-    implementation LibraryAndroid.composeMaterial
-    // Material design icons
-    implementation LibraryAndroid.composeMaterialIconCore
-    implementation LibraryAndroid.composeMaterialIconExt
-    // Integration with activities
-    implementation LibraryAndroid.composeActivity
-    // Integration with ViewModels
-    implementation LibraryAndroid.composeViewModel
-    // Integration with observables
-    implementation LibraryAndroid.composeLiveData
-    implementation LibraryAndroid.composeRXJava
-
-    // UI Tests
-    androidTestImplementation LibraryAndroidTesting.composeJunit4
-    /**
-     Compose
-     **/
-
-    // Multidex
-    implementation LibraryAndroid.multiDex
 }
 
 kapt {
     correctErrorTypes true
-}
-
-sonarqube {
-    properties {
-        property "sonar.projectName", "BASEDAGGER"
-        property "sonar.projectKey", "BASEDAGGER_KEY"
-
-        property "sonar.projectVersion", "1.0"
-        property "sonar.exclusions", "robospice/**/*"
-        property "sonar.host.url", "http://69.69.69.56:9000" //
-        property "sonar.login", "6fb2eb206edf69c629e0a7ce79b1b34d27d52198"
-
-        property "sonar.binaries", "build/intermediates/classes/debug"
-        property "sonar.java.binaries", "build/intermediates/classes/debug"
-        property "sonar.tests", "src/test/java, src/androidTest/java"
-        property "sonar.java.test.binaries", "build/intermediates/classes/debug"
-
-
-        def unit = fileTree(dir: project.projectDir, includes: ['**/*.exec']).files;
-        def ui = fileTree(dir: project.projectDir, includes: ['**/*.ec']).files;
-        unit.addAll(ui);
-        def files = unit.join(", ");
-
-        property "sonar.jacoco.reportPaths", files
-        property "sonar.junit.reportsPath", "build/test-results/testDebugUnitTest"
-        property "sonar.android.lint.report", "build/reports/lint-results.xml"
-
-
-        property "sonar.java.coveragePlugin", "jacoco"
-//        property "sonar.jacoco.reportPath", "**/jacoco/*.exec"
-        property "sonar.test.inclusions", "**/*Test*/**"
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.sources", "src/main/java"
-        property "sonar.exclusions", '**/*Test*/**,' +
-                '*.json,' +
-                '**/*test*/**,' +
-                '**/.gradle/**,' +
-                // data binding
-                'android/databinding/**/*.class'+
-                '**/android/databinding/*Binding.class'+
-                '**/android/databinding/*'+
-                '**/androidx/databinding/*'+
-                '**/BR.*'+
-                // android
-                '**/R.class'+
-                '**/R$*.class'+
-                '**/BuildConfig.*'+
-                '**/Manifest*.*'+
-                '**/*Test*.*'+
-                'android/**/*.*'+
-                // kotlin
-                '**/*MapperImpl*.*'+
-                '**/*$ViewInjector*.*'+
-                '**/*$ViewBinder*.*'+
-                '**/BuildConfig.*'+
-                '**/*Component*.*'+
-                '**/*BR*.*'+
-                '**/Manifest*.*'+
-                '**/*$Lambda$*.*'+
-                '**/*Companion*.*'+
-                '**/*Module*.*'+
-                '**/*Dagger*.*'+
-                '**/*Hilt*.*'+
-                '**/*MembersInjector*.*'+
-                '**/*_MembersInjector.class'+
-                '**/*_Factory*.*'+
-                '**/*_Provide*Factory*.*'+
-                '**/*Extensions*.*'+
-                // sealed and data classes
-                '**/*$Result.*'+
-                '**/*$Result$*.*'+
-                // adapters generated by moshi
-                '**/*JsonAdapter.*'+
-                //Dagger HIlt
-                'dagger.hilt.internal.*/*'+
-                'hilt_*/*'+
-                'androidx.databinding.*/*'+
-                // BaseApps
-                '**/basedagger/base/*.kt,'+
-                '**/basedagger/customview/*.kt,'+
-                '**/basedagger/data/**,'+
-                '**/basedagger/di/*.kt,'+
-                '**/basedagger/extension/*.kt,'+
-                '**/basedagger/preference/*.kt,'+
-                '**/basedagger/utill/*.kt'
-        property "sonar.coverage.exclusions", "${androidExclusion.join(',')}"
-    }
 }

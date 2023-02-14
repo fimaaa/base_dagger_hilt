@@ -1,5 +1,14 @@
 object Modules {
     const val common = ":common"
+    const val navigation = ":navigation"
+    const val featureCrypto = ":feature:crypto"
+    const val featureEmployee = ":feature:employee"
+    const val modelCommon = ":model:common"
+    const val modelCrypto = ":model:crypto"
+    const val modelEmployee = ":model:employee"
+    const val network = ":network"
+    const val local = ":local"
+    const val repository = ":repository"
 }
 
 object Release {
@@ -9,31 +18,32 @@ object Release {
     const val versionCode: Int = versionMajor*10000 + versionMinor*100 + versionPatch
     const val versionAppName: String = "$versionMajor.$versionMinor.$versionPatch"
     const val minSDK = 21
-    const val maxSDK = 32
+    const val maxSDK = 33
 
     const val appName = "BaseDaggerHilt"
 }
 
 object Versions {
-    const val gradle = "4.2.2"
-    const val gradlePlugin = "1.7.0"
+    const val gradle = "7.4.0"
+    const val gradlePlugin = "1.7.20"
     const val googleService = "4.3.13"
     const val firebaseCrashlytics = "2.9.1"
     const val firebaseBOM = "30.4.0"
     const val kotlinVersion = "1.6.21"
-    const val navigation = "2.5.1"
+    const val navigation = "2.5.3"
     const val sonarQube = "2.8"
     const val jacoco = "0.8.7"
 
-    const val daggerVersion = "2.43.2"
-    const val appCompatVersion = "1.5.0"
+    const val hiltGradle = "2.28.3-alpha"
+    const val daggerVersion = "2.43" // 2.43
+    const val appCompatVersion = "1.6.0"
     const val constraintLayoutVersion = "2.1.4"
-    const val materialVersion = "1.7.0-alpha01"
+    const val materialVersion = "1.6.0"
     const val espressoVersion = "3.4.0"
     const val glideVersion = "4.12.0"
     const val glideVector = "v2.0.0"
     const val junitVersion = "4.13.2"
-    const val ktxVersion = "1.8.0"
+    const val ktxVersion = "1.9.0"
     const val pagingVersion = "3.1.1"
     const val retrofitVersion = "2.9.0"
     const val retrofitCoroutines = "0.9.2"
@@ -44,7 +54,7 @@ object Versions {
     const val googleAds = "21.2.0"
     const val gson = "2.8.9"
     const val googleAR = "1.31.0"
-    const val roomVersion = "2.4.3"
+    const val roomVersion = "2.5.0"
 
     const val test = "1.4.0"
     const val truth = "1.0.1"
@@ -59,27 +69,28 @@ object Versions {
     const val rxJava = "2.2.10"
     const val rxBinding = "2.2.0"
 
-    const val okhttpLogging = "5.0.0-alpha.2"
+    const val okhttpLogging = "4.9.3"
     const val lifeCycle = "2.5.1"
     const val lifeCycleExt = "2.2.0"
 
-    const val localeHelper = "1.1.4"
+    const val localeHelper = "1.5.1"
 
     const val skeletonLayout = "4.0.0"
     const val progressButton = "2.1.0"
 
     const val multiDex = "2.0.1"
 
-    const val compose = "1.2.1"
+    const val composeLifeCycle = "2.6.0-alpha01"
     const val composeActivity = "1.5.1"
     const val composeViewModel = "2.5.1"
+    const val webSocket = "1.5.1"
 }
 
 object LibraryProject {
     const val gradle =  "com.android.tools.build:gradle:${Versions.gradle}"
     const val gradlePlugin =  "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.gradlePlugin}"
     const val navigation = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
-    const val daggerHilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.daggerVersion}"
+    const val daggerHilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltGradle}"
     const val sonarQube = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarQube}"
     const val googleService = "com.google.gms:google-services:${Versions.googleService}"
 
@@ -94,8 +105,6 @@ object LibraryAndroid {
     const val constrainLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayoutVersion}"
     const val googleMaterial = "com.google.android.material:material:${Versions.materialVersion}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
-    const val anko = "org.jetbrains.anko:anko:${Versions.anko}"
-    const val ankoCommon = "org.jetbrains.anko:anko-common:${Versions.anko}"
     const val googleAR = "com.google.ar:core:${Versions.googleAR}"
 
     // Check Leak Memory
@@ -109,13 +118,18 @@ object LibraryAndroid {
     const val retrofitConverterMoshi = "com.squareup.retrofit2:converter-moshi:${Versions.retrofitVersion}"
     const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
     const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
-    const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
+
+    const val okhttpPlatform = "com.squareup.okhttp3:okhttp-bom:${Versions.okhttpLogging}"
+    const val okHttp = "com.squareup.okhttp3:okhttp"
+    const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor"
 
     // Room
-    const val room = "androidx.room:room-ktx:${Versions.roomVersion}"
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
+    const val room = "androidx.room:room-ktx:${Versions.roomVersion}"
+    const val roomCommon = "androidx.room:room-common-ktx:${Versions.roomVersion}"
     const val roomTesting = "androidx.room:room-testing:${Versions.roomVersion}"
+    const val roomPaging = "androidx.room:room-paging:${Versions.roomVersion}"
 
     // Lifecycle
     const val lifeCycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
@@ -123,7 +137,7 @@ object LibraryAndroid {
     const val lifeCycleExt = "androidx.lifecycle:lifecycle-extensions:${Versions.lifeCycleExt}"
 
     // DataBinding
-    const val dataBindingCompiler = "com.android.databinding:compiler:${Versions.gradle}" // 4.2.1
+    const val dataBindingCompiler = "com.android.databinding:compiler:4.0.1" // 4.2.1
     const val rxBinding = "com.jakewharton.rxbinding2:rxbinding:${Versions.rxBinding}"
 
     // Navigation Component
@@ -133,6 +147,9 @@ object LibraryAndroid {
     // ...with Kotlin.
     const val daggerHilt = "com.google.dagger:hilt-android:${Versions.daggerVersion}"
     const val daggerHiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.daggerVersion}"
+
+    const val daggerHiltViewmodel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
+    const val daggerHiltViewModelCompiler = "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
     // Glide
     const val glide = "com.github.bumptech.glide:glide:${Versions.glideVersion}"
@@ -168,19 +185,38 @@ object LibraryAndroid {
     /**
     Compose
      **/
-    const val composeUI = "androidx.compose.ui:ui:${Versions.compose}"
-    // Tooling support (Previews, etc.)
-    const val composeUITool = "androidx.compose.ui:ui-tooling:${Versions.compose}"
+
+    const val composeBom = "androidx.compose:compose-bom:2023.01.00"
+
+    /* Choose only one Material */
+    // Material Design 3
+    const val composeMaterial3 = "androidx.compose.material3:material3"
+    // Material Design 2
+    const val composeMaterial2 = "androidx.compose.material:material"
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    const val composeFoundation = "androidx.compose.foundation:foundation:${Versions.compose}"
-    // Material Design
-    const val composeMaterial = "androidx.compose.material:material:${Versions.compose}"
-    // Material design icons
-    const val composeMaterialIconCore = "androidx.compose.material:material-icons-core:${Versions.compose}"
-    const val composeMaterialIconExt = "androidx.compose.material:material-icons-extended:${Versions.compose}"
+    const val composeFoundation = "androidx.compose.foundation:foundation"
+    // or only import the main APIs for the underlying toolkit systems,
+    //  such as input and measurement/layout
+    const val composeUI = "androidx.compose.ui:ui"
+    /* */
+
+    // Tooling support (Previews, etc.)
+    const val composeUIPreview = "androidx.compose.ui:ui-tooling-preview"
+    const val composeUITool = "androidx.compose.ui:ui-tooling"
+
+    // Material design icons add if not using material
+    // but need icon
+    const val composeMaterialIconCore = "androidx.compose.material:material-icons-core"
+    // Optional - Add full set of material icons
+    const val composeMaterialIconExt = "androidx.compose.material:material-icons-extended"
+    // Optional - Add window size utils
+    const val composeWindowsSize = "androidx.compose.material3:material3-window-size-class"
+
+
     // Integration with observables
-    const val composeLiveData = "androidx.compose.runtime:runtime-livedata:${Versions.compose}"
-    const val composeRXJava = "androidx.compose.runtime:runtime-rxjava2:${Versions.compose}"
+    const val composeLiveData = "androidx.compose.runtime:runtime-livedata"
+    const val composeRXJava = "androidx.compose.runtime:runtime-rxjava2"
+    const val composeLifeCycle =  "androidx.lifecycle:lifecycle-runtime-compose:${Versions.composeLifeCycle}"
     // Integration with activities
     const val composeActivity = "androidx.activity:activity-compose:${Versions.composeActivity}"
     // Integration with ViewModels
@@ -191,6 +227,8 @@ object LibraryAndroid {
 
     // Multidex
     const val multiDex = "androidx.multidex:multidex:${Versions.multiDex}"
+
+    const val webSocket = "org.java-websocket:Java-WebSocket:${Versions.webSocket}"
 }
 
 object LibraryAndroidTesting {
@@ -200,8 +238,9 @@ object LibraryAndroidTesting {
     const val testRunner =  "androidx.test:runner:${Versions.test}"
     const val testRules = "androidx.test:rules:${Versions.test}"
 
-    // UI Tests
-    const val composeJunit4 = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
+    // UI Tests Compose
+    const val composeTestJunit4 = "androidx.compose.ui:ui-test-junit4"
+    const val composeTestManifest = "androidx.compose.ui:ui-test-manifest"
 
     // For Robolectric tests.
     // Dagger Hilt

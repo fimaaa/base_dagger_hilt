@@ -1,0 +1,54 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+    compileSdkVersion Release.maxSDK
+
+    defaultConfig {
+        minSdkVersion Release.minSDK
+        targetSdkVersion Release.maxSDK
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            testCoverageEnabled false
+        }
+        staging {
+            minifyEnabled false
+            testCoverageEnabled false
+        }
+        debug {
+            minifyEnabled false
+            testCoverageEnabled true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation LibraryAndroid.appCompat
+    implementation LibraryAndroid.kotlinX
+    // Dagger Hilt
+    kaptAndroidTest LibraryAndroidTesting.dagger
+    // Hilt dependencies
+    implementation LibraryAndroid.daggerHilt
+    kapt LibraryAndroid.daggerHiltCompiler
+
+//    // Hilt Jetpack Integrations
+//    implementation LibraryAndroid.daggerHiltViewmodel
+//    annotationProcessor LibraryAndroid.daggerHiltViewModelCompiler
+}
+
+kapt {
+    correctErrorTypes true
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/listCryptoFragment"
+        android:icon="@drawable/ic_error_nobutton"
+        android:title="Crypto"/>
+
+    <item
+        android:id="@+id/socketCryptoFragment"
+        android:icon="@drawable/ic_error_button"
+        android:title="Websocket"/>
+</menu>
