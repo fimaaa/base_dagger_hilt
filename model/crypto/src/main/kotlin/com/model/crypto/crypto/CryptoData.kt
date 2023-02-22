@@ -29,7 +29,7 @@ data class CryptoData(
     val proofType: String = "",
 
     @SerializedName("Rating")
-    val rating: Rating = Rating(),
+    val rating: Rating = Rating()
 ) {
     data class Rating(
         @SerializedName("Weiss")
@@ -41,7 +41,7 @@ data class CryptoData(
             @SerializedName("TechnologyAdoptionRating")
             val ratingTech: String = "",
             @SerializedName("MarketPerformanceRating")
-            val ratingMarket: String = "",
+            val ratingMarket: String = ""
         )
     }
 }

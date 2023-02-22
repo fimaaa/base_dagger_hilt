@@ -15,9 +15,9 @@ import javax.inject.Inject
 import javax.net.ssl.SSLSocketFactory
 
 @HiltViewModel
-class SocketCryptoViewModel  @Inject constructor(
+class SocketCryptoViewModel @Inject constructor(
     private val webSocketURI: URI
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private var webSocketClient: WebSocketClient? = null
 
@@ -56,20 +56,19 @@ class SocketCryptoViewModel  @Inject constructor(
         get() = _observablePriceText
 
     fun connectWebSocket() {
-        if(webSocketClient?.isOpen == false) {
+        if (webSocketClient?.isOpen == false) {
             webSocketClient?.connect()
         }
-
     }
 
     fun disconnectWebSocket() {
-        if(webSocketClient?.isOpen == true) {
+        if (webSocketClient?.isOpen == true) {
             unsubscribe()
         }
     }
 
     private fun subscribe() {
-        try{
+        try {
             webSocketClient?.send(
                 "{\n" +
                         "    \"type\": \"subscribe\",\n" +
@@ -82,13 +81,13 @@ class SocketCryptoViewModel  @Inject constructor(
                         "    \"subs\": [\"21~BTC\", \"21~ETH\"]" +
                         "}"
             )
-        }catch (e: WebsocketNotConnectedException) {
+        } catch (e: WebsocketNotConnectedException) {
             e.printStackTrace()
         }
     }
 
     private fun unsubscribe() {
-        try{
+        try {
             webSocketClient?.send(
                 "{\n" +
                         "    \"type\": \"unsubscribe\",\n" +
@@ -102,7 +101,7 @@ class SocketCryptoViewModel  @Inject constructor(
                         "}"
             )
             webSocketClient?.close()
-        }catch (e: WebsocketNotConnectedException) {
+        } catch (e: WebsocketNotConnectedException) {
             e.printStackTrace()
         }
     }
@@ -110,5 +109,4 @@ class SocketCryptoViewModel  @Inject constructor(
     companion object {
         const val TAG = "Coinbase"
     }
-
 }

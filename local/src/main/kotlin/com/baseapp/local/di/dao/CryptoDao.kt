@@ -7,7 +7,7 @@ import com.baseapp.local.common.dao.BaseDao
 import com.model.crypto.crypto.ResponseListCryptoInfo
 
 @Dao
-interface CryptoDao: BaseDao<ResponseListCryptoInfo> {
+interface CryptoDao : BaseDao<ResponseListCryptoInfo> {
 
     @Query("SELECT * FROM ResponseListCryptoInfo ORDER BY page ASC")
     suspend fun getAllListCrypto(): List<ResponseListCryptoInfo>

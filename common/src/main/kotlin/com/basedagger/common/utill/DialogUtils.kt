@@ -28,7 +28,8 @@ object DialogUtils {
         desc: String,
         listener: () -> Unit = {}
     ) {
-        val view = LayoutInflater.from(context).inflate(R.layout.basedialog_alert, null as ViewGroup?)
+        val view =
+            LayoutInflater.from(context).inflate(R.layout.basedialog_alert, null as ViewGroup?)
         val binding = BasedialogAlertBinding.bind(view)
         with(binding) {
             titleDialog.text = title
@@ -55,10 +56,11 @@ object DialogUtils {
         title: String = mContext.getString(R.string.error_default),
         onDismissListener: (() -> Unit)? = null
     ) {
-        val layoutInflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val layoutInflater: LayoutInflater =
+            mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding = BasedialogAlertBinding.inflate(layoutInflater).apply {
             titleDialog.text = title
-            descDialog.text = message?:mContext.getString(R.string.error_default)
+            descDialog.text = message ?: mContext.getString(R.string.error_default)
         }
         val builder = AlertDialog.Builder(mContext)
         builder.setView(binding.root)
@@ -83,7 +85,8 @@ object DialogUtils {
         listenerBtn2: (() -> Unit)? = null,
         listenerLink: (() -> Unit)? = null
     ) {
-        val view = LayoutInflater.from(context).inflate(R.layout.custom_twobutton_dialog, null as ViewGroup?)
+        val view = LayoutInflater.from(context)
+            .inflate(R.layout.custom_twobutton_dialog, null as ViewGroup?)
         val binding = CustomTwobuttonDialogBinding.bind(view)
         with(binding) {
             titleDialog.text = defaultData.title

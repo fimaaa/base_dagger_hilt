@@ -6,10 +6,8 @@ import androidx.room.Query
 import com.baseapp.local.common.dao.BaseDao
 import com.model.employee.Employee
 
-//@Dao
-//interface EmployeeDao {
 @Dao
-interface EmployeeDao: BaseDao<Employee.Data> {
+interface EmployeeDao : BaseDao<Employee.Data> {
 
     @Query("SELECT * FROM employee_table")
     suspend fun getAllEmployee(): List<Employee.Data>

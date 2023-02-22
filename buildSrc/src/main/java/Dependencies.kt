@@ -3,6 +3,7 @@ object Modules {
     const val navigation = ":navigation"
     const val featureCrypto = ":feature:crypto"
     const val featureEmployee = ":feature:employee"
+    const val featureFirebaseTest = ":feature:firebasetest"
     const val modelCommon = ":model:common"
     const val modelCrypto = ":model:crypto"
     const val modelEmployee = ":model:employee"
@@ -28,10 +29,10 @@ object Versions {
     const val gradlePlugin = "1.7.20"
     const val googleService = "4.3.13"
     const val firebaseCrashlytics = "2.9.1"
-    const val firebaseBOM = "30.4.0"
+    const val firebaseBOM = "31.2.1"
     const val kotlinVersion = "1.6.21"
     const val navigation = "2.5.3"
-    const val sonarQube = "2.8"
+    const val sonarQube = "3.2.0"
     const val jacoco = "0.8.7"
 
     const val hiltGradle = "2.28.3-alpha"
@@ -52,6 +53,8 @@ object Versions {
     const val chuckerVersion = "3.5.2"
     const val gooleAuth = "20.3.0"
     const val googleAds = "21.2.0"
+    const val gooleMaps = "18.1.0"
+    const val googleLocation = "21.0.0"
     const val gson = "2.8.9"
     const val googleAR = "1.31.0"
     const val roomVersion = "2.5.0"
@@ -171,12 +174,22 @@ object LibraryAndroid {
     const val googleAuth = "com.google.android.gms:play-services-auth:${Versions.gooleAuth}"
     // Google Ads
     const val googleAds = "com.google.android.gms:play-services-ads:${Versions.googleAds}"
+    // Google maps
+    const val googleMaps = "com.google.android.gms:play-services-maps:${Versions.gooleMaps}"
+    const val googleLocation =  "com.google.android.gms:play-services-location:${Versions.googleLocation}"
 
     // Declare the dependencies for the Crashlytics and Analytics libraries
     // When using the BoM, you don't specify versions in Firebase library dependencies
     const val firebaseBOM = "com.google.firebase:firebase-bom:${Versions.firebaseBOM}"
     const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-ktx"
     const val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
+    const val firebaseAuth = "com.google.firebase:firebase-auth-ktx"
+    const val firebaseNotification = "com.google.firebase:firebase-messaging-ktx"
+    const val firebaseInAppMessage = "com.google.firebase:firebase-inappmessaging-display-ktx"
+    const val firebaseDatabase = "com.google.firebase:firebase-database-ktx"
+
+    // Location Hash
+    const val geoHash = "com.github.drfonfon:android-kotlin-geohash:1.0"
 
     // Style
     const val skeletonLayout = "com.faltenreich:skeletonlayout:${Versions.skeletonLayout}"

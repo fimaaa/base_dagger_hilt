@@ -12,12 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.basedagger.common.base.BaseBindingFragment
 import com.stockbit.crypto.R
+import com.baseapp.navigation.R as navR
 import com.stockbit.crypto.databinding.FragmentHomeCryptoBinding
 
-class HomeCryptoFragment: BaseBindingFragment<FragmentHomeCryptoBinding, HomeCryptoViewModel>() {
-
-    override fun onReadyAction() {
-    }
+class HomeCryptoFragment : BaseBindingFragment<FragmentHomeCryptoBinding, HomeCryptoViewModel>() {
+    override fun onReadyAction() = Unit
 
     override fun onStart() {
         super.onStart()
@@ -34,7 +33,11 @@ class HomeCryptoFragment: BaseBindingFragment<FragmentHomeCryptoBinding, HomeCry
                 // Handle the menu selection
                 return when (menuItem.itemId) {
                     R.id.listEmployee -> {
-                        findNavController().navigate(com.baseapp.navigation.R.id.nav_graph_employee)
+                        findNavController().navigate(navR.id.nav_graph_employee)
+                        true
+                    }
+                    R.id.firebaseTest -> {
+                        findNavController().navigate(navR.id.nav_graph_firebasetest)
                         true
                     }
                     else -> false

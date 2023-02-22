@@ -11,8 +11,6 @@ import com.stockbit.crypto.databinding.ItemCryptoBinding
 class AdapterCrypto(
     private val listener: (ResponseListCryptoInfo) -> Unit
 ) : PagingDataAdapter<ResponseListCryptoInfo, AdapterCrypto.ViewHolder>(TASK_COMPARATOR) {
-
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
     }
@@ -47,5 +45,4 @@ class AdapterCrypto(
             ): Boolean = oldItem == newItem
         }
     }
-
 }

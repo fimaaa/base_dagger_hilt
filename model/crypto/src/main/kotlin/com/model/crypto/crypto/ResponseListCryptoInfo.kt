@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 @Entity
 data class ResponseListCryptoInfo(
     @PrimaryKey
-    var id : Int = 0,
+    var id: Int = 0,
 
     var page: Int = 0,
 

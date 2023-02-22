@@ -2,7 +2,7 @@ package com.model.crypto.crypto
 
 import com.google.gson.annotations.SerializedName
 
-data class CryptoValue (
+data class CryptoValue(
     @SerializedName("PRICE")
     val price: String = "",
 

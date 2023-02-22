@@ -13,16 +13,21 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/white</item>
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/admob_close_button_black_circle_white_cross</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorSecondary</item>
         <item name="colorAccent">@color/colorOptionalPrimary</item>
-        <item name="android:statusBarColor">@color/colorOptionalPrimary</item>
-        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionBar">true</item>
         <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="MyThemeOverlay_Toolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <!-- color used by navigation icon and overflow icon -->
+        <item name="colorOnPrimary">@color/colorPrimary</item>
     </style>
 </resources>

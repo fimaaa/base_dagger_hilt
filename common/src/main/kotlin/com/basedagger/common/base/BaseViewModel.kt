@@ -3,6 +3,8 @@ package com.basedagger.common.base
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
+import com.baseapp.navigation.NavigationCommand
 import com.data.common.Resource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
@@ -25,18 +27,30 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
     private val _isConnected = MutableStateFlow(false)
     val isConnected: StateFlow<Boolean>
         get() = _isConnected
+
     fun setStatusConnection(isConnected: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             _isConnected.emit(isConnected)
         }
     }
 
-    private val _statusViewModel = MutableSharedFlow <Resource<Boolean>>(replay = 0)
-    val statusViewModel:SharedFlow <Resource<Boolean>>
+    private val _statusViewModel = MutableSharedFlow<Resource<Boolean>>(replay = 0)
+    val statusViewModel: SharedFlow<Resource<Boolean>>
         get() = _statusViewModel
+
     fun setStatusViewModel(status: Resource<Boolean>) {
         viewModelScope.launch(Dispatchers.IO) {
             _statusViewModel.emit(status)
+        }
+    }
+
+    private val _actionNavigate = MutableSharedFlow<NavigationCommand>()
+    val actionNavigate: SharedFlow<NavigationCommand>
+        get() = _actionNavigate
+
+    fun navigate(direction: NavDirections) {
+        viewModelScope.launch {
+            _actionNavigate.emit(NavigationCommand.To(direction))
         }
     }
 

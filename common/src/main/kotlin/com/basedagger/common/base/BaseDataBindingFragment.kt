@@ -1,6 +1,5 @@
 package com.basedagger.common.base
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,13 +27,10 @@ abstract class BaseDataBindingFragment<VB : ViewDataBinding, VM : BaseViewModel>
         val vbClass = vbType.actualTypeArguments[0] as Class<VB>
         val vmClass = vbType.actualTypeArguments[1] as Class<VM>
         val method = vbClass.getMethod(
-            "inflate",
-            LayoutInflater::class.java,
-            ViewGroup::class.java,
-            Boolean::class.java
+            "inflate", LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.java
         )
         _binding = method.invoke(null, layoutInflater, container, false) as VB
-        viewModel = createViewModelLazy(vmClass.kotlin, {viewModelStore}).value
+        viewModel = createViewModelLazy(vmClass.kotlin, { viewModelStore }).value
         binding.lifecycleOwner = this@BaseDataBindingFragment
         binding.executePendingBindings()
         return binding.root

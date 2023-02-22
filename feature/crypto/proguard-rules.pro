@@ -19,3 +19,17 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# Keep data binding classes
+-keep class androidx.databinding.** { *; }
+
+# Keep generated data binding classes
+-keep class com.stockbit.crypto.home.databinding.** { *; }
+
+# Keep the default constructor for FragmentLoginBinding
+-keepclassmembers class com.stockbit.crypto.home.databinding.* {
+    <init>(android.view.View);
+}
+
+-keep class com.stockbit.crypto.databinding.* {
+    public static com.stockbit.crypto.databinding.* inflate(android.view.LayoutInflater, android.view.ViewGroup, boolean);
+}

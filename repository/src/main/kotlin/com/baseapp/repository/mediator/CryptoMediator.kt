@@ -20,7 +20,7 @@ class CryptoMediator(
     private val dao: CryptoDao,
     private val remoteKeyDao: RemoteKeysDao,
     private val webSocketClient: WebSocketClient
-): RemoteMediator<Int, ResponseListCryptoInfo>() {
+) : RemoteMediator<Int, ResponseListCryptoInfo>() {
 
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -30,45 +30,19 @@ class CryptoMediator(
         loadType: LoadType,
         state: PagingState<Int, ResponseListCryptoInfo>
     ): MediatorResult {
-
-//        page =
-//        when (loadType) {
-//            LoadType.REFRESH -> 0
-//                LoadType.PREPEND -> if(page < 0) 0 else page+1
-//                LoadType.APPEND -> if(page < 0) 0 else page+1
-//        }
-//        try {
-//            val apiResponse = service.fetchTopUsersAsync(page)
-//
-//            val repos = apiResponse.data
-//            repos.map {
-//                it.id = it.coinInfo.id
-//                it.page = page
-//            }
-//            val endOfPaginationReached = (apiResponse.pagination?.totalPage ?: 0) <= (page + 1) * 50
-////            repoDatabase.withTransaction {
-////                repoDatabase.reposDao().insertAll(repos)
-////            }
-//            dao.save(repos)
-//            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-//        } catch (exception: Exception) {
-//            page -= 1
-//            println("TAG ERROR MEDIATOR => $exception")
-//            return MediatorResult.Error(exception)
-//        }
-
         val pageKeyData = getKeyPageData(loadType, state)
         val page = when (pageKeyData) {
             is MediatorResult.Success -> {
                 return pageKeyData
             }
             else -> {
-                (pageKeyData as Int?)?:0
+                (pageKeyData as Int?) ?: 0
             }
         }
 
         try {
             val apiResponse = service.fetchTopUsersAsync(page)
+            println("TAG apiResponse = $apiResponse")
             val repos = apiResponse.data
             repos.map {
                 it.id = it.coinInfo.id
@@ -78,13 +52,13 @@ class CryptoMediator(
                 webSocketClient.send(
                     "{\n" +
                             "    \"action\": \"SubRemove\",\n" +
-                            "    \"subs\": [\"${"21~"+it.coinInfo.name}\"]" +
+                            "    \"subs\": [\"${"21~" + it.coinInfo.name}\"]" +
                             "}"
                 )
                 webSocketClient.send(
                     "{\n" +
                             "    \"action\": \"SubAdd\",\n" +
-                            "    \"subs\": [\"${"21~"+it.coinInfo.name}\"]" +
+                            "    \"subs\": [\"${"21~" + it.coinInfo.name}\"]" +
                             "}"
                 )
             }
@@ -118,7 +92,10 @@ class CryptoMediator(
     /**
      * this returns the page key or the final end of list success result
      */
-    suspend fun getKeyPageData(loadType: LoadType, state: PagingState<Int, ResponseListCryptoInfo>): Any? {
+    suspend fun getKeyPageData(
+        loadType: LoadType,
+        state: PagingState<Int, ResponseListCryptoInfo>
+    ): Any? {
         return when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getClosestRemoteKey(state)
@@ -132,7 +109,7 @@ class CryptoMediator(
             LoadType.PREPEND -> {
                 val remoteKeys = getFirstRemoteKey(state)
 //                    ?: throw InvalidObjectException("Invalid state, key should not be null")
-                //end of list condition reached
+                // end of list condition reached
                 remoteKeys?.prevKey ?: return MediatorResult.Success(endOfPaginationReached = true)
                 remoteKeys.prevKey
             }

@@ -1,5 +1,3 @@
 package com.basedagger.common.base
 
-class BaseActivityViewModel: BaseViewModel() {
-
-}
+class BaseActivityViewModel : BaseViewModel()

@@ -45,7 +45,6 @@ class TopListRepositoryImpl @Inject constructor(
 
     override suspend fun checkDaoExist() = dao.checkListExist() != null
 
-
     override suspend fun clearAllData() {
         dao.deleteAll()
         remoteKeyDao.clearRemoteKeys()
@@ -56,7 +55,7 @@ class TopListRepositoryImpl @Inject constructor(
         Pager(
             config = PagingConfig(
                 pageSize = 50,
-                enablePlaceholders = false,
+                enablePlaceholders = false
             ),
             pagingSourceFactory = { getPagingTopTierLocal() },
             remoteMediator = CryptoMediator(
@@ -70,5 +69,4 @@ class TopListRepositoryImpl @Inject constructor(
 
     override fun getPagingTopTierLocal(): PagingSource<Int, ResponseListCryptoInfo> =
         dao.getListCryptoPagination()
-
 }

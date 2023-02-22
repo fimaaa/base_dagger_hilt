@@ -3,4 +3,5 @@
     <item name="nav_graph_crypto" type="id"/>
     <item name="nav_graph_crypto_home" type="id"/>
     <item name="nav_graph_employee" type="id" />
+    <item name="nav_graph_firebasetest" type="id" />
 </resources>

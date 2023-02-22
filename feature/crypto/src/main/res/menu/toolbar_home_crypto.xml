@@ -4,4 +4,8 @@
         android:id="@+id/listEmployee"
         android:icon="@drawable/ic_search"
         android:title="Employee"/>
+    <item
+        android:id="@+id/firebaseTest"
+        android:icon="@drawable/ic_search"
+        android:title="Firebase"/>
 </menu>

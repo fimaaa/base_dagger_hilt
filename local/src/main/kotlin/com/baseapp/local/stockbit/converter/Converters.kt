@@ -48,7 +48,4 @@ class Converters {
     @TypeConverter
     fun jsonToCryptoValue(value: String) =
         Gson().fromJson(value, CryptoValue::class.java)
-
-
-
 }

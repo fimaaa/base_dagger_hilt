@@ -4,7 +4,8 @@ import com.basedagger.common.base.BaseBindingFragment
 import com.basedagger.common.extension.observe
 import com.stockbit.crypto.databinding.FragmentCryptoSocketBinding
 
-class SocketCryptoFragment: BaseBindingFragment<FragmentCryptoSocketBinding, SocketCryptoViewModel>() {
+class SocketCryptoFragment :
+    BaseBindingFragment<FragmentCryptoSocketBinding, SocketCryptoViewModel>() {
 
     override fun onObserveAction() {
         observe(viewModel.observablePriceText) { text ->

@@ -1,24 +1,22 @@
 package com.basedagger.common.extension
 
-import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
-import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
-import android.view.WindowManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.widget.NestedScrollView
-import com.google.android.material.snackbar.Snackbar
 import com.basedagger.common.R
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 const val Toast_Error = -1
@@ -53,51 +51,6 @@ fun Context.showSnackBar(
     snackBar.show()
 }
 
-fun Activity.makeStatusBarTransparent() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        window.apply {
-            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                decorView.systemUiVisibility =
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            } else {
-                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            }
-            statusBarColor = Color.TRANSPARENT
-        }
-    }
-}
-
-fun Activity.getScreenDevice(): DisplayMetrics {
-    val displayMetrics = DisplayMetrics()
-    windowManager.defaultDisplay.getMetrics(displayMetrics)
-    return displayMetrics
-}
-
-fun Activity.getWidthAds(): Int {
-    val display = windowManager.defaultDisplay
-    val outMetrics = DisplayMetrics()
-    display.getMetrics(outMetrics)
-
-    val density = outMetrics.density
-
-    var adWidthPixels = getScreenDevice().widthPixels.toFloat()
-    if (adWidthPixels == 0f) {
-        adWidthPixels = outMetrics.widthPixels.toFloat()
-    }
-
-    return (adWidthPixels / density).toInt()
-}
-
-fun Activity.changeStatusBarColor(color: Int) {
-    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-    window.statusBarColor = ContextCompat.getColor(
-        this, color
-    )
-}
-
 fun Context.showDateDialog(
     selectedDate: (date: Calendar) -> Unit
 ) {
@@ -116,27 +69,6 @@ fun Context.showDateDialog(
     )
     datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
     datePickerDialog.show()
-}
-
-fun Activity.scrollBehaviour(scroll: NestedScrollView) {
-    scroll.setOnScrollChangeListener {  _, _, scrollY, _, _ ->
-        if (scrollY != 0) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.statusBarColor = ContextCompat.getColor(
-                this@scrollBehaviour, android.R.color.white
-            )
-        } else if (scrollY == 0) makeStatusBarTransparent()
-    }
-}
-
-fun Activity.makeDefaultStatusBar() {
-    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-    window.statusBarColor = ContextCompat.getColor(
-        this, android.R.color.white
-    )
-    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
 }
 
 fun Context.openLinkApps(url: String) {
@@ -181,4 +113,29 @@ fun Context.isPackageInstalled(packageName: String): Boolean {
     } catch (e: NameNotFoundException) {
         false
     }
+}
+
+fun Context.copyToClipboard(
+    value: String,
+    label: String = "BaseApp_Dagger_Clipboard"
+) {
+    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText(label, value)
+    clipboard.setPrimaryClip(clip)
+}
+
+fun Context.toast(message: CharSequence) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.toast(messageId: Int) {
+    Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.longToast(message: CharSequence) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
+fun Context.longToast(messageId: Int) {
+    Toast.makeText(this, messageId, Toast.LENGTH_LONG).show()
 }

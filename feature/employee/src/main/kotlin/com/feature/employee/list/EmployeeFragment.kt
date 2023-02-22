@@ -17,11 +17,11 @@ import com.basedagger.common.R as commonR
 
 class EmployeeFragment : BaseDataBindingFragment<FragmentEmployeeBinding, EmployeeViewModel>() {
 
-
     private var skeleton: Skeleton? = null
 
     private val adapter = EmployeePagingAdapter {
-        requireContext().showSnackBar(binding.root, it.employee_name,
+        requireContext().showSnackBar(
+            binding.root, it.employee_name,
             Toast_Default
         )
     }.apply {
@@ -41,7 +41,7 @@ class EmployeeFragment : BaseDataBindingFragment<FragmentEmployeeBinding, Employ
 
     override fun onInitialization() {
         super.onInitialization()
-        parentAction.setCustomToolbar (commonR.menu.toolbar_default)
+        parentAction.setCustomToolbar(commonR.menu.toolbar_default)
     }
 
     override fun onObserveAction() {

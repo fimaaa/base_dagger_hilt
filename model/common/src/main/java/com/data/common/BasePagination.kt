@@ -2,7 +2,7 @@ package com.data.common
 
 import com.google.gson.annotations.SerializedName
 
-data class BasePagination (
+data class BasePagination(
     @SerializedName(value = "current_page")
     val currentPage: Int = 0,
     @SerializedName(value = "per_page")

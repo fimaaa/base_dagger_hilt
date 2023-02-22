@@ -6,10 +6,10 @@ import com.basedagger.common.R
 import com.basedagger.common.extension.changeStatusBarColor
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseBindingActivity<VB : ViewBinding>: BaseActivity() {
+abstract class BaseBindingActivity<VB : ViewBinding> : BaseActivity() {
 
     private var _binding: VB? = null
-    protected val binding:VB
+    protected val binding: VB
         get() = _binding!!
 
     @Suppress("UNCHECKED_CAST")

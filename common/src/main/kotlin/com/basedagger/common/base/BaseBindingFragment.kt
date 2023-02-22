@@ -1,13 +1,16 @@
 package com.basedagger.common.base
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.createViewModelLazy
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.baseapp.navigation.NavigationCommand
 import com.basedagger.common.extension.safeCollect
 import java.lang.reflect.ParameterizedType
 
@@ -45,7 +48,18 @@ abstract class BaseBindingFragment<VB : ViewBinding, VM : BaseViewModel> : BaseF
         safeCollect(viewModel.statusViewModel) { status ->
             parentViewModel.setStatusViewModel(status)
         }
+        safeCollect(viewModel.actionNavigate) { command ->
+            when (command) {
+                is NavigationCommand.To -> findNavController().navigate(
+                    command.directions,
+                    getExtras()
+                )
+                is NavigationCommand.Back -> findNavController().navigateUp()
+            }
+        }
     }
+
+    open fun getExtras(): FragmentNavigator.Extras = FragmentNavigatorExtras()
 
     override fun onDestroy() {
         super.onDestroy()

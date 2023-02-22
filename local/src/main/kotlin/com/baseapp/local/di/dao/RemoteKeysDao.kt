@@ -8,7 +8,7 @@ import com.baseapp.local.common.dao.BaseDao
 import com.model.crypto.crypto.RemoteKeys
 
 @Dao
-interface RemoteKeysDao: BaseDao<RemoteKeys> {
+interface RemoteKeysDao : BaseDao<RemoteKeys> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(remoteKey: List<RemoteKeys>)
 

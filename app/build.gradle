@@ -1,68 +1,13 @@
-//plugins {
-//    id 'com.android.application'
-//    id 'org.jetbrains.kotlin.android'
-//}
-//
-//apply from: "${project.rootDir}/ktlint.gradle"
-//apply from: "${project.rootDir}/jacoco.gradle"
-//
-//android {
-//    namespace 'com.baseapp.daggerhilt'
-//    compileSdk 33
-//
-//    defaultConfig {
-//        applicationId "com.baseapp.daggerhilt"
-//        minSdk 24
-//        targetSdk 33
-//        versionCode 1
-//        versionName "1.0"
-//
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//    }
-//
-//    buildTypes {
-//        release {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
-//    }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
-//    kotlinOptions {
-//        jvmTarget = '1.8'
-//    }
-//
-//    buildFeatures {
-//        dataBinding true
-//    }
-//    buildFeatures {
-//        viewBinding true
-//    }
-//}
-//
-//dependencies {
-//
-//    implementation 'androidx.core:core-ktx:1.9.0'
-//    implementation 'androidx.appcompat:appcompat:1.6.0'
-//    implementation 'com.google.android.material:material:1.7.0'
-//    testImplementation 'junit:junit:4.13.2'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-//}
-
 plugins {
     id 'com.android.application'
     id 'org.sonarqube'
-//    id 'com.google.gms.google-services'
-//    id 'com.google.firebase.crashlytics'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
     id 'jacoco'
 }
 
 apply from: "${project.rootDir}/common/android_common.gradle"
 apply from: "${project.rootDir}/common/android_core_dependencies.gradle"
-apply from: "${project.rootDir}/ktlint.gradle"
 apply from: "${project.rootDir}/jacoco.gradle"
 
 android {
@@ -74,34 +19,41 @@ android {
 
     defaultConfig {
         applicationId "com.baseapp.daggerhilt"
+        versionCode Release.versionCode
+        versionName Release.versionAppName
         externalNativeBuild {
             cmake {
                 cppFlags ''
             }
         }
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
         release {
             resValue "string", "app_name", "$appName"
             buildConfigField "String", "VARIANT", "\"release\""
-//            minifyEnabled true
-//            debuggable false
-//            testCoverageEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ext.enableCrashlytics = true
+            manifestPlaceholders = [crashlyticsCollectionEnabled: "true"]
+            minifyEnabled true
+            debuggable false
+            testCoverageEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         staging {
             resValue "string", "app_name", "$appName-staging"
             buildConfigField "String", "VARIANT", "\"staging\""
             versionNameSuffix "-stage"
-//            minifyEnabled false
-//            debuggable true
-//            testCoverageEnabled true
+            ext.enableCrashlytics = false
+            manifestPlaceholders = [crashlyticsCollectionEnabled: "false"]
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             resValue "string", "app_name", "$appName-dev"
             buildConfigField "String", "VARIANT", "\"development\""
             versionNameSuffix "-dev"
+            ext.enableCrashlytics = false
+            manifestPlaceholders = [crashlyticsCollectionEnabled: "false"]
 //            minifyEnabled false
 //            debuggable true
 //            testCoverageEnabled true
@@ -146,9 +98,11 @@ android {
 
 dependencies {
     implementation project(Modules.common)
+    implementation project(Modules.modelCommon)
     implementation project(Modules.navigation)
     implementation project(Modules.featureCrypto)
     implementation project(Modules.featureEmployee)
+    implementation project(Modules.featureFirebaseTest)
     implementation project(Modules.repository)
     implementation project(Modules.network)
     implementation project(Modules.local)
@@ -189,6 +143,9 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation LibraryAndroid.firebaseCrashlytics
     implementation LibraryAndroid.firebaseAnalytics
+    implementation LibraryAndroid.firebaseAuth
+    implementation LibraryAndroid.firebaseNotification
+    implementation LibraryAndroid.firebaseDatabase
 }
 
 kapt {

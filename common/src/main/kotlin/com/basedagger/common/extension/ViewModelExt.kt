@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 fun <T> BaseViewModel.safeApiCall(callSuccess: suspend () -> T) {
-    if(isConnected.value) {
+    if (isConnected.value) {
         setStatusViewModel(Resource.error(UIText.DynamicString(""), null))
     } else {
         setStatusViewModel(Resource.loading())
@@ -17,7 +17,7 @@ fun <T> BaseViewModel.safeApiCall(callSuccess: suspend () -> T) {
                 setStatusViewModel(Resource.success(true))
                 callSuccess()
             } catch (t: Throwable) {
-                if(isConnected.value) {
+                if (isConnected.value) {
                     setStatusViewModel(Resource.error(UIText.DynamicString(""), null))
                 } else {
                     val message = t.toThrowableMessage()
@@ -34,8 +34,8 @@ fun <T> BaseViewModel.safeApiCallIndependent(
     callSuccess: suspend () -> T,
     callError: (Throwable) -> Unit = {}
 ) {
-    if(isConnected.value) {
-       callError(Throwable("No Internet Connection"))
+    if (isConnected.value) {
+        callError(Throwable("No Internet Connection"))
     } else {
         viewModelScope.launch(Dispatchers.IO) {
             try {

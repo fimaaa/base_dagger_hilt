@@ -23,4 +23,4 @@ fun getBaseUrl(): String =
         else -> getDebugBaseUrl()
     }
 
-fun getSocketBaseUrlSocket() = getSocketBaseUrlSocketTemp()+getSocketBasicAuth()
+fun getSocketBaseUrlSocket() = getSocketBaseUrlSocketTemp() + getSocketBasicAuth()

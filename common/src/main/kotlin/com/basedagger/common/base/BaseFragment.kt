@@ -4,7 +4,10 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.basedagger.common.R
@@ -13,12 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 
 @AndroidEntryPoint
-abstract class BaseFragment(
-    private val toolbarShow: Boolean = false,
-    private val statusBarShow: Boolean = true
-) : Fragment() {
-
-    lateinit var parentAction:BaseActivityView
+abstract class BaseFragment() : Fragment() {
+    lateinit var parentAction: BaseActivityView
 
     private lateinit var job: Job
 //    private lateinit var mainView: BaseActivityView
@@ -33,7 +32,6 @@ abstract class BaseFragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStatusBar()
         setHasOptionsMenu(true)
         job = Job()
         onInitialization()
@@ -44,7 +42,6 @@ abstract class BaseFragment(
 //        mainView.toolbarVisibility(toolbarShow)
         activity.hideKeyboard(view)
         onObserveAction()
-        onReadyAction()
     }
 
     override fun onDestroy() {
@@ -62,47 +59,19 @@ abstract class BaseFragment(
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(requireActivity() is BaseActivityView) {
+        if (requireActivity() is BaseActivityView) {
             parentAction = (requireActivity() as BaseActivityView)
         }
     }
 
-    @Suppress("DEPRECATION")
-    private fun setStatusBar() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-            activity?.window?.setDecorFitsSystemWindows(statusBarShow)
-        } else {
-            if (statusBarShow) {
-                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            } else {
-                activity?.window?.setFlags(
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN
-                )
-            }
-        }
+    override fun onStart() {
+        super.onStart()
+        onReadyAction()
     }
 
     fun changeOrientation(orientation: Int) {
         requireActivity().requestedOrientation = orientation
     }
-
-//    fun setCustomToolbar(hasHome: Boolean, title: String, menuToolbar: Int) {
-////        mainView.setCustomToolbar(hasHome, title, menuToolbar)
-//    }
-//
-//    fun setOnBackPressed(listener: () -> Unit) {
-////        mainView.setCustomOnBackPressed(listener)
-//    }
-//
-//    fun setDispatchEvent(listener: (MotionEvent) -> Boolean?) {
-////        mainView.setDispatchTouchEvent(listener)
-//    }
-//
-//    fun changeLanguage(language: String) {
-////        prefs.prefLocale = language
-////        mainView.changeLanguage(language)
-//    }
 
     class LoadingDialog : DialogFragment() {
         override fun onCreateView(

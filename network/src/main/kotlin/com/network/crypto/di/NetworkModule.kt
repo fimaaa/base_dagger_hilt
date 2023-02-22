@@ -88,7 +88,6 @@ object NetworkModule {
         okHttpClientBuilder.build()
     }
 
-
     @Provides
     @Singleton
     fun provideTopListServices(@Named("Socket_TopList") retrofit: Retrofit): TopListServices =

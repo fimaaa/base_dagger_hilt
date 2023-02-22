@@ -33,6 +33,7 @@ android {
 
 dependencies {
     implementation(project(Modules.modelCommon))
+    implementation(project(Modules.navigation))
 
     implementation(LibraryAndroid.retrofit)
 }

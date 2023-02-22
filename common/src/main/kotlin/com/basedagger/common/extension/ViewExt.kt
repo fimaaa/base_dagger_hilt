@@ -178,7 +178,6 @@ fun ViewGroup.ChangeSize(width: Int? = null, heigt: Int? = null) {
     layoutParams = param
 }
 
-
 /**
  * Transforms static java function Snackbar.make() to an extension function on View.
  */

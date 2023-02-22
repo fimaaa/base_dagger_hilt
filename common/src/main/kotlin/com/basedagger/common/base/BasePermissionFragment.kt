@@ -9,8 +9,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-abstract class BasePermissionFragment(toolbar: Boolean) :
-    BaseFragment(toolbar) {
+abstract class BasePermissionFragment() :
+    BaseFragment() {
 
     val reqPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         if (it) {

@@ -39,8 +39,6 @@ fun <T> FragmentActivity.safeCollect(flow: Flow<T>, action: (t: T) -> Unit) {
         flow.safeCollect { action.invoke(it) }
     }
 }
-
-
 suspend inline fun <T> Flow<T>.safeCollect(crossinline action: suspend (T) -> Unit) {
     collect {
         coroutineContext.ensureActive()

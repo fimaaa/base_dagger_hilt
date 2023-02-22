@@ -24,7 +24,8 @@ abstract class BaseActivity : LocaleAwareCompatActivity(), BaseActivityView {
     private val connectionLiveData: ConnectionLiveData by lazy { ConnectionLiveData(this) }
 
     private val loadingDialog: AlertDialog by lazy {
-        val layoutInflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val layoutInflater: LayoutInflater =
+            getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val bindingDialog =
             BasedialogLoadingBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(this)
@@ -48,7 +49,7 @@ abstract class BaseActivity : LocaleAwareCompatActivity(), BaseActivityView {
         super.onCreate(savedInstanceState)
         onBackPressedDispatcher.addCallback(this) {
             if (registeredHandler != null) {
-                if(registeredHandler?.invoke() == true) {
+                if (registeredHandler?.invoke() == true) {
                     return@addCallback
                 }
             }
@@ -67,7 +68,7 @@ abstract class BaseActivity : LocaleAwareCompatActivity(), BaseActivityView {
             baseViewModel.setStatusConnection(isConnected)
         }
         safeCollect(baseViewModel.statusViewModel) {
-            when(it.status) {
+            when (it.status) {
                 Status.LOADING -> {
                     loadingDialog.show()
                 }
@@ -95,7 +96,7 @@ abstract class BaseActivity : LocaleAwareCompatActivity(), BaseActivityView {
     override fun setCustomToolbar(menuToolbar: Int, title: String?) {
         this.menuToolbar = menuToolbar
 
-        if(title != null) {
+        if (title != null) {
             supportActionBar?.title = title
         }
     }
@@ -130,6 +131,4 @@ abstract class BaseActivity : LocaleAwareCompatActivity(), BaseActivityView {
     override fun changeLanguage(language: String) {
         updateLocale(Locale(language))
     }
-
-
 }

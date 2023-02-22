@@ -19,8 +19,7 @@ import com.stockbit.crypto.databinding.FragmentListcryptoBinding
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-
-class ListCryptoFragment: BaseBindingFragment<FragmentListcryptoBinding, ListCryptoViewModel>() {
+class ListCryptoFragment : BaseBindingFragment<FragmentListcryptoBinding, ListCryptoViewModel>() {
     private var skeleton: Skeleton? = null
     private var adapter: AdapterCrypto = AdapterCrypto {
         showSnackbar(it.coinInfo.fullName, Snackbar.LENGTH_LONG)
@@ -74,8 +73,8 @@ class ListCryptoFragment: BaseBindingFragment<FragmentListcryptoBinding, ListCry
         }
         observe(viewModel.newMessage) {
             adapter?.snapshot()?.items?.forEachIndexed { position, item ->
-                if(item.coinInfo.name == it.symbol){
-                    item.moneyData.coinValue.change = it.topTierVolume?:0.0
+                if (item.coinInfo.name == it.symbol) {
+                    item.moneyData.coinValue.change = it.topTierVolume ?: 0.0
                     adapter?.notifyItemChanged(position)
                 }
             }
@@ -102,7 +101,7 @@ class ListCryptoFragment: BaseBindingFragment<FragmentListcryptoBinding, ListCry
             viewModel.refresh()
         }
         viewModel.refreshList.apply {
-            value = !(value?:false)
+            value = !(value ?: false)
         }
         binding.tvTitleCrypto.setOnClickListener {
             val data = adapter.snapshot().firstOrNull { info ->
@@ -110,7 +109,7 @@ class ListCryptoFragment: BaseBindingFragment<FragmentListcryptoBinding, ListCry
             }
             data?.coinInfo?.name = "BERUBAH"
             adapter.snapshot().items.forEachIndexed { position, item ->
-                if(item.coinInfo.name == "BTC"){
+                if (item.coinInfo.name == "BTC") {
                     item.coinInfo.name = "CHANGED"
                     adapter.notifyItemChanged(position)
                 }
@@ -136,5 +135,4 @@ class ListCryptoFragment: BaseBindingFragment<FragmentListcryptoBinding, ListCry
         skeleton = null
 //        adapter = null
     }
-
 }

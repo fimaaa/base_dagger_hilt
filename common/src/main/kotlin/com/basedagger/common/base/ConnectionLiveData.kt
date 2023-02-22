@@ -12,8 +12,9 @@ import android.net.NetworkRequest
 import android.os.Build
 import androidx.lifecycle.LiveData
 
-class ConnectionLiveData(private val mContext: Context): LiveData<Boolean>() {
-    private var connectivityManager = mContext.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+class ConnectionLiveData(private val mContext: Context) : LiveData<Boolean>() {
+    private var connectivityManager =
+        mContext.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
     private lateinit var connectivityManagerCallback: ConnectivityManager.NetworkCallback
 
     private val networkRequestBuilder = NetworkRequest.Builder()
@@ -24,12 +25,17 @@ class ConnectionLiveData(private val mContext: Context): LiveData<Boolean>() {
         super.onActive()
         updateConnection()
         when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> connectivityManager.registerDefaultNetworkCallback(getConnectivityMarshmallowManagerCallback())
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> connectivityManager.registerDefaultNetworkCallback(
+                getConnectivityMarshmallowManagerCallback()
+            )
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> marshmallowNetworkAvailableRequest()
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> lollipopNetworkAvailableRequest()
             else -> {
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    mContext.registerReceiver(networkReceiver, IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION))
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    mContext.registerReceiver(
+                        networkReceiver,
+                        IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION)
+                    )
                 }
             }
         }
@@ -37,7 +43,7 @@ class ConnectionLiveData(private val mContext: Context): LiveData<Boolean>() {
 
     override fun onInactive() {
         super.onInactive()
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)  {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             connectivityManager.unregisterNetworkCallback(connectivityManagerCallback)
         } else {
             mContext.unregisterReceiver(networkReceiver)
@@ -45,16 +51,22 @@ class ConnectionLiveData(private val mContext: Context): LiveData<Boolean>() {
     }
 
     private fun lollipopNetworkAvailableRequest() {
-        connectivityManager.registerNetworkCallback(networkRequestBuilder.build(), getConnectivityLollipopManagerCallback())
+        connectivityManager.registerNetworkCallback(
+            networkRequestBuilder.build(),
+            getConnectivityLollipopManagerCallback()
+        )
     }
 
     private fun marshmallowNetworkAvailableRequest() {
-        connectivityManager.registerNetworkCallback(networkRequestBuilder.build(), getConnectivityMarshmallowManagerCallback())
+        connectivityManager.registerNetworkCallback(
+            networkRequestBuilder.build(),
+            getConnectivityMarshmallowManagerCallback()
+        )
     }
 
     private fun getConnectivityLollipopManagerCallback(): ConnectivityManager.NetworkCallback {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            connectivityManagerCallback = object: ConnectivityManager.NetworkCallback() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            connectivityManagerCallback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     postValue(true)
                 }
@@ -63,21 +75,21 @@ class ConnectionLiveData(private val mContext: Context): LiveData<Boolean>() {
                     postValue(false)
                 }
             }
-            return  connectivityManagerCallback
+            return connectivityManagerCallback
         } else {
             throw IllegalAccessError("Accessing Wrong API Version")
         }
     }
 
     private fun getConnectivityMarshmallowManagerCallback(): ConnectivityManager.NetworkCallback {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            connectivityManagerCallback = object: ConnectivityManager.NetworkCallback() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            connectivityManagerCallback = object : ConnectivityManager.NetworkCallback() {
                 override fun onCapabilitiesChanged(
                     network: Network,
                     networkCapabilities: NetworkCapabilities
                 ) {
                     networkCapabilities.let { capabilities ->
-                        if(
+                        if (
                             capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
                             capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
                         ) {
@@ -90,13 +102,13 @@ class ConnectionLiveData(private val mContext: Context): LiveData<Boolean>() {
                     postValue(false)
                 }
             }
-            return  connectivityManagerCallback
+            return connectivityManagerCallback
         } else {
             throw IllegalAccessError("Accessing Wrong API Version")
         }
     }
 
-    private val networkReceiver = object: BroadcastReceiver() {
+    private val networkReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             updateConnection()
         }
@@ -109,8 +121,9 @@ class ConnectionLiveData(private val mContext: Context): LiveData<Boolean>() {
 
     private val Context.isConnected: Boolean
         get() {
-            val connectivityManager = (getSystemService(CONNECTIVITY_SERVICE) as? ConnectivityManager)
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val connectivityManager =
+                (getSystemService(CONNECTIVITY_SERVICE) as? ConnectivityManager)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val nw = connectivityManager?.activeNetwork ?: return false
                 val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
                 return when {

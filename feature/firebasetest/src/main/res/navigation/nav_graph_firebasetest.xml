@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_firebasetest"
+    app:startDestination="@id/loginFirebaseFragment">
+
+    <fragment
+        android:id="@+id/loginFirebaseFragment"
+        android:name="com.feature.baseapp.firebasetest.login.LoginFirebaseFragment"
+        android:label="LoginFirebaseFragment"
+        tools:layout="@layout/fragment_login"
+        >
+        <action
+            android:id="@+id/action_loginFirebaseFragment_to_homeFirebaseFragment"
+            app:destination="@id/homeFirebaseFragment"
+            app:popUpTo="@id/nav_graph_firebasetest"
+            app:popUpToInclusive="true"
+            app:restoreState="false"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFirebaseFragment"
+        android:name="com.feature.baseapp.firebasetest.home.HomeFirebaseFragment"
+        android:label="HomeFirebaseFragment"
+        tools:layout="@layout/fragment_home"
+        >
+        <action
+            android:id="@+id/action_homeFirebaseFragment_to_loginFirebaseFragment"
+            app:destination="@id/loginFirebaseFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph_firebasetest"
+            app:popUpToInclusive="true"
+            app:restoreState="false"
+            />
+    </fragment>
+
+
+</navigation>

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        >
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -12,7 +14,12 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
+                android:layout_height="?attr/actionBarSize"
+                app:titleTextColor="@color/colorPrimary"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:theme="@style/MyThemeOverlay_Toolbar"
+                android:background="@color/colorSecondary"
+                />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -21,8 +28,8 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@android:color/white"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/main_nav"
             />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

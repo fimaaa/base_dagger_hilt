@@ -25,7 +25,7 @@ import javax.net.ssl.SSLSocketFactory
 class ListCryptoViewModel @Inject constructor(
     private val webSocketURI: URI,
     private val topListRepository: TopListRepository
-): BaseViewModel() {
+) : BaseViewModel() {
 
 //    @Inject
 //    lateinit var  webSocketURI: URI
@@ -69,32 +69,30 @@ class ListCryptoViewModel @Inject constructor(
         topListRepository.getPagingTopTier(webSocketClient).cachedIn(viewModelScope)
     }
 
-
-
     suspend fun isDataExist(): Boolean = topListRepository.checkDaoExist()
 
     fun refresh() {
         viewModelScope.launch {
             topListRepository.clearAllData()
-            refreshList.postValue(!(refreshList.value?:false))
-            refresh.postValue(!(refresh.value?:false))
+            refreshList.postValue(!(refreshList.value ?: false))
+            refresh.postValue(!(refresh.value ?: false))
         }
     }
 
     private fun connectWebSocket() {
-        if(!webSocketClient.isOpen) {
+        if (!webSocketClient.isOpen) {
             webSocketClient.connect()
         }
     }
 
     fun reConnectingWebSocket() {
-        if(webSocketClient.isClosed) {
+        if (webSocketClient.isClosed) {
             webSocketClient.connect()
         }
     }
 
     fun disconnectWebSocket() {
-        if(webSocketClient.isOpen) {
+        if (webSocketClient.isOpen) {
             webSocketClient.close()
         }
     }
@@ -103,19 +101,18 @@ class ListCryptoViewModel @Inject constructor(
         viewModelScope.launch {
             val list = arrayListOf<String>()
             topListRepository.getListTopTierLocal().forEach {
-                list.add("\"21~"+it.coinInfo.name+"\"")
+                list.add("\"21~" + it.coinInfo.name + "\"")
             }
-            try{
+            try {
                 webSocketClient.send(
                     "{\n" +
                             "    \"action\": \"SubAdd\",\n" +
                             "    \"subs\": $list" +
                             "}"
                 )
-            }catch (e:WebsocketNotConnectedException) {
+            } catch (e: WebsocketNotConnectedException) {
                 e.printStackTrace()
             }
-
         }
     }
 
@@ -123,16 +120,16 @@ class ListCryptoViewModel @Inject constructor(
         safeApiCall {
             val list = arrayListOf<String>()
             topListRepository.getListTopTierLocal().forEach {
-                list.add("\"21~"+it.coinInfo.name+"\"")
+                list.add("\"21~" + it.coinInfo.name + "\"")
             }
-            try{
+            try {
                 webSocketClient.send(
                     "{\n" +
                             "    \"action\": \"SubRemove\",\n" +
                             "    \"subs\": $list" +
                             "}"
                 )
-            }catch (e:WebsocketNotConnectedException) {
+            } catch (e: WebsocketNotConnectedException) {
                 e.printStackTrace()
             }
         }
