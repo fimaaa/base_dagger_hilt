@@ -4,16 +4,22 @@ import android.os.CountDownTimer
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
-import com.basedagger.common.base.BaseDataBindingFragment
-import com.basedagger.common.base.BaseLoadStateAdapter
-import com.basedagger.common.extension.*
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.feature.employee.R
 import com.feature.employee.adapter.EmployeePagingAdapter
 import com.feature.employee.databinding.FragmentEmployeeBinding
+import com.general.common.base.BaseDataBindingFragment
+import com.general.common.base.BaseLoadStateAdapter
+import com.general.common.extension.Toast_Default
+import com.general.common.extension.gone
+import com.general.common.extension.observe
+import com.general.common.extension.showSnackBar
+import com.general.common.extension.toThrowableCode
+import com.general.common.extension.toThrowableMessage
+import com.general.common.extension.visible
 import java.net.HttpURLConnection
-import com.basedagger.common.R as commonR
+import com.general.common.R as commonR
 
 class EmployeeFragment : BaseDataBindingFragment<FragmentEmployeeBinding, EmployeeViewModel>() {
 
@@ -41,7 +47,7 @@ class EmployeeFragment : BaseDataBindingFragment<FragmentEmployeeBinding, Employ
 
     override fun onInitialization() {
         super.onInitialization()
-        parentAction.setCustomToolbar(commonR.menu.toolbar_default)
+//        parentAction.setCustomToolbar(commonR.menu.toolbar_default)
     }
 
     override fun onObserveAction() {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="LOGIN FIREBASE TEST" />
+
+    <Button
+        android:id="@+id/btn_login"
+        style="@style/ShapeAppearanceOverlay.Material3.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_med"
+        android:background="@color/colorError"
+        android:gravity="center"
+        android:padding="@dimen/dimen_med"
+        android:text="Login"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

@@ -1,11 +1,10 @@
 package com.feature.baseapp.firebasetest.login
 
-import com.basedagger.common.base.BaseBindingFragment
-import com.basedagger.common.extension.safeOnClikListener
-import com.feature.baseapp.firebasetest.databinding.FragmentLoginBinding
+import com.feature.baseapp.firebasetest.databinding.FragmentFirebaseLoginBinding
+import com.general.common.base.BaseBindingFragment
+import com.general.common.extension.safeOnClikListener
 
-class LoginFirebaseFragment : BaseBindingFragment<FragmentLoginBinding, LoginFirebaseViewModel>() {
-
+class LoginFirebaseFragment : BaseBindingFragment<FragmentFirebaseLoginBinding, LoginFirebaseViewModel>() {
     override fun onReadyAction() {
         binding.btnLogin.safeOnClikListener {
             viewModel.login(requireActivity())

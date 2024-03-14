@@ -19,7 +19,7 @@ object ExternalData {
 fun getBaseUrl(): String =
     when (BuildConfig.BUILD_TYPE) {
         EnumBuild.RELEASE.name -> getReleaseBaseUrl()
-        EnumBuild.STAGING.name -> getStagingBaseUrl()
+        EnumBuild.QA.name -> getStagingBaseUrl()
         else -> getDebugBaseUrl()
     }
 

@@ -2,9 +2,9 @@ package com.feature.baseapp.firebasetest.login
 
 import android.app.Activity
 import androidx.lifecycle.viewModelScope
-import com.basedagger.common.base.BaseViewModel
-import com.basedagger.common.extension.toThrowableMessage
-import com.data.common.Resource
+import com.data.common.ViewState
+import com.general.common.base.BaseViewModel
+import com.general.common.extension.toViewState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -30,14 +30,14 @@ class LoginFirebaseViewModel : BaseViewModel() {
     }
 
     fun login(mActivity: Activity) {
-        setStatusViewModel(Resource.loading())
+        setStatusViewModel(ViewState.LOADING)
         auth.signInWithEmailAndPassword("email@testmail.com", "password")
             .addOnSuccessListener(mActivity) {
                 val user = auth.currentUser
                 user?.let {
                     navigateToHome()
                 }
-                setStatusViewModel(Resource.success(true))
+                setStatusViewModel(ViewState.SUCCESS(true))
                 // Sign in success, update UI with the signed-in user's informatio
             }
             .addOnFailureListener(mActivity) {
@@ -47,7 +47,7 @@ class LoginFirebaseViewModel : BaseViewModel() {
     }
 
     private fun register(mActivity: Activity) {
-        setStatusViewModel(Resource.loading())
+        setStatusViewModel(ViewState.LOADING)
         auth.createUserWithEmailAndPassword("email@testmail.com", "password")
             .addOnCompleteListener(mActivity) { task ->
                 viewModelScope.launch {
@@ -56,7 +56,7 @@ class LoginFirebaseViewModel : BaseViewModel() {
                         val user = auth.currentUser
                         user?.let {
                             _actionUser.emit(it)
-                            setStatusViewModel(Resource.success(true))
+                            setStatusViewModel(ViewState.SUCCESS(true))
                             return@launch
                         }
                     }
@@ -64,7 +64,7 @@ class LoginFirebaseViewModel : BaseViewModel() {
                 }
             }
             .addOnFailureListener(mActivity) {
-                setStatusViewModel(Resource.error(it.toThrowableMessage()))
+                setStatusViewModel(it.toViewState())
             }
     }
 

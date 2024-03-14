@@ -34,28 +34,20 @@ plugins {
 //    }
 //}
 
-apply("${project.rootDir}/common/android_common.gradle")
+apply("${project.rootDir}/library/common/android_common.gradle")
 //apply("${project.rootDir}/common/android_core_dependencies.gradle")
 android {
     namespace = "com.model.employee"
 }
 
 dependencies {
+    implementation(libs.gson)
 
-//    implementation("androidx.core:core-ktx:1.7.0")
-//    implementation("androidx.appcompat:appcompat:1.6.0")
-//    implementation("com.google.android.material:material:1.8.0")
-//    testImplementation("junit:junit:4.13.2")
-//    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-//    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(libs.roomRuntime)
+    annotationProcessor(libs.roomCompiler)
+    kapt(libs.roomCompiler)
+    implementation(libs.room)
+    testImplementation(libs.roomTesting)
 
-    implementation(LibraryAndroid.gson)
-
-    implementation(LibraryAndroid.roomRuntime)
-    annotationProcessor(LibraryAndroid.roomCompiler)
-    kapt(LibraryAndroid.roomCompiler)
-    implementation(LibraryAndroid.room)
-    testImplementation(LibraryAndroid.roomTesting)
-
-//    implementation(LibraryAndroid.roomCommon)
+//    implementation(libs.roomCommon)
 }

@@ -19,7 +19,7 @@
                 android:gravity="center"
                 android:text="LIST CRYPTO"
                 />
-            <com.basedagger.common.customview.BlankLayout
+            <com.general.common.customview.BlankLayout
                 android:id="@+id/blanklayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

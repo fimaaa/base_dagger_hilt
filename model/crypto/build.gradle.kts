@@ -3,59 +3,23 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
 }
-//
-//android {
-//    namespace = "com.baseapp.crypt"
-//    compileSdk = 33
-//
-//    defaultConfig {
-//        minSdk = 24
-//        targetSdk = 33
-//
-//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles("consumer-rules.pro")
-//    }
-//
-//    buildTypes {
-//        release {
-//            isMinifyEnabled = false
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
-//        }
-//    }
-//    compileOptions {
-//        sourceCompatibility = JavaVersion.VERSION_1_8
-//        targetCompatibility = JavaVersion.VERSION_1_8
-//    }
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
-//}
 
-apply("${project.rootDir}/common/android_common.gradle")
-//apply("${project.rootDir}/common/android_core_dependencies.gradle")
+apply("${project.rootDir}/library/common/android_common.gradle")
+
 android {
     namespace = "com.model.crypto"
 }
 
 dependencies {
+    implementation(project(Modules.Model.COMMON))
 
-//    implementation("androidx.core:core-ktx:1.7.0")
-//    implementation("androidx.appcompat:appcompat:1.6.0")
-//    implementation("com.google.android.material:material:1.8.0")
-//    testImplementation("junit:junit:4.13.2")
-//    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-//    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(libs.moshi)
+    implementation(libs.moshiKotlin)
+    implementation(libs.gson)
 
-    implementation(LibraryAndroid.gson)
-
-    implementation(LibraryAndroid.roomRuntime)
-    annotationProcessor(LibraryAndroid.roomCompiler)
-    kapt(LibraryAndroid.roomCompiler)
-    implementation(LibraryAndroid.room)
-    testImplementation(LibraryAndroid.roomTesting)
-
-//    implementation(LibraryAndroid.roomCommon)
+    implementation(libs.roomRuntime)
+    annotationProcessor(libs.roomCompiler)
+    kapt(libs.roomCompiler)
+    implementation(libs.room)
+    testImplementation(libs.roomTesting)
 }

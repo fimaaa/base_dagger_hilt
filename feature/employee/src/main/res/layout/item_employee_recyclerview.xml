@@ -17,11 +17,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.3"
         android:background="@color/black"
+        app:imageUrl="@{data.profile_image}"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_user_name"
-        style="@style/title_normal_dark"
+        style="@style/title_normal_light"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/dimen_small"
@@ -35,7 +36,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_user_type"
-        style="@style/desc_normal_dark"
+        style="@style/desc_normal_white"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/dimen_small"
@@ -49,12 +50,13 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_user_link"
-        style="@style/desc_normal_dark"
+        style="@style/desc_normal_white"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/dimen_small"
         android:gravity="center|end"
         android:textColor="@color/colorOptionalPrimary"
+        app:textPrice="@{data.employee_salary}"
         app:layout_constraintBottom_toBottomOf="@id/iv_user_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_user_type"

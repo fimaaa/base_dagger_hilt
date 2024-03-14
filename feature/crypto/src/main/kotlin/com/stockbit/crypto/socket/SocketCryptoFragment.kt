@@ -1,28 +1,48 @@
 package com.stockbit.crypto.socket
 
-import com.basedagger.common.base.BaseBindingFragment
-import com.basedagger.common.extension.observe
+import com.data.common.ViewState
+import com.general.common.base.BaseBindingFragment
+import com.general.common.extension.safeCollect
+import com.google.gson.Gson
+import com.model.crypto.socket.BitcoinTicker
+import com.stockbit.crypto.adapter.AdapterCrypto
 import com.stockbit.crypto.databinding.FragmentCryptoSocketBinding
 
 class SocketCryptoFragment :
     BaseBindingFragment<FragmentCryptoSocketBinding, SocketCryptoViewModel>() {
+    private var adapter: AdapterCrypto? = null
+
+    override fun onInitialization() {
+        super.onInitialization()
+        adapter = AdapterCrypto({ oldValue, newValue ->
+            viewModel.unsubscribe(oldValue)
+            viewModel.subscribe(newValue)
+        }) {
+        }
+    }
 
     override fun onObserveAction() {
-        observe(viewModel.observablePriceText) { text ->
-            binding.tvPriceSocket.text = "1 BTC: $text €"
+        safeCollect(viewModel.actionChangeCryptoValue) {
+            if (adapter == null) return@safeCollect
+
+            val bitcoin = try {
+                Gson().fromJson(it, BitcoinTicker::class.java)
+            } catch (e: Exception) {
+                return@safeCollect
+            }
+            adapter?.newPriceValue(bitcoin)
+        }
+        safeCollect(viewModel.actionGetListCrypto) {
+            if (it is ViewState.SUCCESS) {
+                adapter?.setListCrypto(it.data)
+            }
         }
     }
 
     override fun onReadyAction() {
         viewModel.initWebSocket()
-        binding.btnOpen.setOnClickListener {
-            binding.tvPriceSocket.text = "Opened Socket"
-            viewModel.initWebSocket()
-        }
-        binding.btnClose.setOnClickListener {
-            binding.tvPriceSocket.text = "Closed Socket"
-            viewModel.disconnectWebSocket()
-        }
+        binding.rcvCrypto.adapter = adapter
+        viewModel.getListCrypto()
     }
 
     override fun onResume() {
@@ -32,6 +52,6 @@ class SocketCryptoFragment :
 
     override fun onPause() {
         super.onPause()
-        viewModel.disconnectWebSocket()
+        viewModel.disconnectWebSocket(adapter?.listCrypto ?: listOf())
     }
 }

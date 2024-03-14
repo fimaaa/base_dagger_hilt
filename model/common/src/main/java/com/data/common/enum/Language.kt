@@ -1,5 +1,10 @@
 package com.data.common.enum
 
+import java.util.Locale
+
 enum class Language(val country: String, val language: String) {
-    INDONESIA("id", "in")
+    DEFAULT("US", "en"),
+    INDONESIA("id", "in");
+
+    fun toLocale(): Locale = Locale(language)
 }

@@ -2,10 +2,10 @@ package com.feature.baseapp.firebasetest.home
 
 import android.location.Location
 import androidx.lifecycle.viewModelScope
-import com.basedagger.common.base.BaseViewModel
-import com.basedagger.common.provider.LocationProvider
 import com.fonfon.kgeohash.GeoHash
 import com.fonfon.kgeohash.toGeoHash
+import com.general.common.base.BaseViewModel
+import com.general.common.provider.LocationProvider
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener

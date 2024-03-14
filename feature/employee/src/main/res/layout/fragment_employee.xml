@@ -36,7 +36,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_employee_recyclerview"
             />
-        <com.basedagger.common.customview.BlankLayout
+        <com.general.common.customview.BlankLayout
             android:id="@+id/blanklayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

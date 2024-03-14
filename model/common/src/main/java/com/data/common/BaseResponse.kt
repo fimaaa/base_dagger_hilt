@@ -1,6 +1,7 @@
 package com.data.common
 
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 /**
  * Generic data class for parsing response
@@ -8,31 +9,31 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class BaseResponse<M, D>(
-    @SerializedName(value = "Message")
-    private val codeMessageCrypto: M,
-    @SerializedName(value = "Type")
-    private val codeCrypto: Int?,
-    @SerializedName(value = "Data")
-    private val dataCrypto: D,
-    @SerializedName(value = "Metadata")
-    private val paginationCrypto: BasePagination? = null,
-
+    @Json(name = "code")
+    @SerializedName(value = "code")
+    var code: Int? = null,
+    @Json(name = "code_type")
+    @SerializedName(value = "code_type")
+    val codeType: String? = null,
+    @Json(name = "code_message")
+    @SerializedName(value = "code_message")
+    var codeMessage: String? = null,
+    @Json(name = "message")
     @SerializedName(value = "message")
-    private val codeMessageEmployee: M,
-    @SerializedName(value = "type")
-    private val codeEmployee: Int?,
+    val message: M? = null,
+    @Json(name = "data")
     @SerializedName(value = "data")
-    private val dataEmployee: D,
-    @SerializedName(value = "metadata")
-    private val paginationEmployee: BasePagination? = null
+    val data: D,
+    @Json(name = "trace_id")
+    @SerializedName(value = "trace_id")
+    var traceId: String? = null
+)
 
-) {
-    val codeMessage: M
-        get() = codeMessageEmployee ?: codeMessageCrypto
-    val code: Int
-        get() = codeEmployee ?: codeCrypto ?: -1
-    val data: D
-        get() = dataEmployee ?: dataCrypto
-    val pagination: BasePagination?
-        get() = paginationEmployee ?: paginationCrypto
-}
+data class BaseResponsePagination<D>(
+    @Json(name = "list")
+    @SerializedName(value = "list")
+    var listData: List<D> = listOf(),
+    @Json(name = "metadata")
+    @SerializedName(value = "metadata")
+    val pagination: BasePagination? = null
+)

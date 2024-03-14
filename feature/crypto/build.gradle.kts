@@ -3,19 +3,20 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-apply("${project.rootDir}/common/android_common.gradle")
-apply("${project.rootDir}/common/android_core_dependencies.gradle")
+apply("${project.rootDir}/library/common/android_common.gradle")
+apply("${project.rootDir}/library/common/android_core_dependencies.gradle")
 
 android {
     namespace = "com.stockbit.crypto"
 }
 
 dependencies {
-    implementation(project(Modules.common))
-    implementation(project(Modules.navigation))
-    implementation(project(Modules.modelCommon))
-    implementation(project(Modules.modelCrypto))
-    implementation(project(Modules.repository))
+    implementation(project(Modules.Library.COMMON))
+    implementation(project(Modules.NAVIGATION))
+    implementation(project(Modules.Model.COMMON))
+    implementation(project(Modules.Model.CRYPTO))
+    implementation(project(Modules.REPOSITORY))
 
-    implementation(LibraryAndroid.webSocket)
+    implementation(libs.webSocket)
+    implementation(libs.kotlinx.serialization)
 }

@@ -10,7 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.basedagger.common.base.BaseBindingFragment
+import com.general.common.base.BaseBindingFragment
 import com.stockbit.crypto.R
 import com.baseapp.navigation.R as navR
 import com.stockbit.crypto.databinding.FragmentHomeCryptoBinding

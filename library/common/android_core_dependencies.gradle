@@ -1,0 +1,174 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+
+android {
+    defaultConfig {
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary true
+
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+
+        testInstrumentationRunner "com.baseapp.daggerhilt.HiltTestRunner"
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.2"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    buildFeatures {
+        dataBinding true
+    }
+    buildFeatures {
+        compose = true
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.10"
+    }
+
+    ndkVersion ndkVersion
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+
+    dependencies {
+        implementation fileTree(dir: "libs", include: ["*.jar"])
+
+        implementation libs.constrainLayout
+        implementation libs.googleMaterial
+        implementation libs.recyclerView
+
+        implementation libs.rxAndroid
+        implementation libs.rxJava
+
+        // Check Leak Memory
+        debugImplementation libs.leakCanary
+
+        // Lifecycle
+        implementation libs.lifeCycleViewModel
+        implementation libs.lifeCycleLivedata
+        implementation libs.lifeCycleExt
+
+        // DataBinding
+//        implementation libs.dataBindingCompiler
+//        implementation libs.rxBinding
+
+        implementation(libs.roomRuntime)
+        annotationProcessor(libs.roomCompiler)
+        kapt(libs.roomCompiler)
+        implementation(libs.room)
+        testImplementation(libs.roomTesting)
+
+//        implementation(libs.roomCommon)
+
+        // Navigation Component
+        implementation libs.navigationFragment
+        implementation libs.navigationUi
+
+        implementation libs.swipeRefresh
+
+        implementation libs.geoHash
+
+        // Glide
+        implementation libs.glide
+        kapt libs.glideCompiler
+
+        // Change Language
+        implementation libs.localeHelper
+
+        // Paging 3
+        implementation libs.paging3
+
+        // Google
+        implementation libs.gson
+
+        implementation libs.googleMaps
+        implementation libs.googleLocation
+        implementation libs.googleFlexbox
+
+        // Style
+        implementation libs.skeletonLayout
+        implementation libs.progressButton
+
+        // Multidex
+        implementation libs.multiDex
+
+        /**
+         Compose
+         **/
+
+        implementation platform(libs.composeBom)
+        androidTestImplementation platform(libs.composeBom)
+//
+//        // Tooling support (Previews, etc.)
+        implementation(libs.composeUIPreview)
+        debugImplementation libs.composeUITool
+//
+//        // Material Design
+        implementation libs.composeMaterial3
+//
+        // Material design icons
+        implementation libs.composeMaterialIconCore
+        implementation libs.composeMaterialIconExt
+        // Integration with activities
+        implementation libs.composeActivity
+        // Integration with ViewModels
+        implementation libs.composeViewModel
+        // Integration with observables
+        implementation libs.composeLiveData
+        implementation libs.composeRXJava
+
+        // UI Tests
+        androidTestImplementation libs.composeTestJunit4
+        /**
+         Compose
+         **/
+
+        testImplementation(libs.junit)
+        testImplementation(libs.junitjupiter.test)
+        testImplementation libs.mockk
+        testImplementation libs.roboElectric
+        androidTestImplementation libs.junitjupiter.test
+        androidTestImplementation libs.junit.test
+
+        androidTestImplementation libs.espresso
+        androidTestImplementation libs.testRunner
+        androidTestImplementation libs.testRules
+
+        // For Robolectric tests.
+        testImplementation libs.daggerHiltTesting
+        // ...with Kotlin.
+        kaptTest libs.daggerHiltCompiler
+        // For instrumented tests.
+        androidTestImplementation libs.daggerHiltTesting
+        // ...with Kotlin.
+        kaptAndroidTest libs.daggerHiltCompiler
+
+        testImplementation libs.truth
+        androidTestImplementation libs.truth
+
+        testImplementation libs.mockitoCore
+        androidTestImplementation libs.mockitoCore
+
+        testImplementation libs.coroutinesTest
+        androidTestImplementation libs.coroutinesTest
+
+        testImplementation libs.archCore
+        androidTestImplementation libs.archCore
+
+        testImplementation(project(Modules.UNIT_TEST))
+        androidTestImplementation(project(Modules.UNIT_TEST))
+    }
+}

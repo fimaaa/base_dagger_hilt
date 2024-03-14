@@ -6,8 +6,8 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.baseapp.repository.repository.EmployeeRepository
-import com.basedagger.common.base.BaseViewModel
+import com.baseapp.repository.crypto.repository.EmployeeRepository
+import com.general.common.base.BaseViewModel
 import com.model.employee.Employee
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

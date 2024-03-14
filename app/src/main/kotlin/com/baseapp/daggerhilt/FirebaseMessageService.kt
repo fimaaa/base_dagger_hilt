@@ -10,7 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.basedagger.common.R as commonR
+import com.general.common.R as commonR
 
 class FirebaseMessageService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {

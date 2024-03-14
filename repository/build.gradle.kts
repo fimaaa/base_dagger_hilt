@@ -4,25 +4,36 @@ plugins {
     id("kotlin-kapt")
 }
 
-apply("${project.rootDir}/common/android_common.gradle")
+apply("${project.rootDir}/library/common/android_common.gradle")
 android {
     namespace = "com.baseapp.repository"
 }
 
 dependencies {
+    implementation(project(Modules.NETWORK))
+    implementation(project(Modules.LOCAL))
 
-    implementation(project(Modules.modelCommon))
-    implementation(project(Modules.modelCrypto))
-    implementation(project(Modules.modelEmployee))
-    implementation(project(Modules.network))
-    implementation(project(Modules.local))
+    implementation(project(Modules.Library.COMMON))
+
+    implementation(project(Modules.Model.COMMON))
+    implementation(project(Modules.Model.CRYPTO))
+    implementation(project(Modules.Model.EMPLOYEE))
+
+    implementation(libs.gson)
+
+    implementation(platform(libs.okhttpPlatform))
+    implementation(libs.okHttp)
+
+    implementation(libs.androidXDataStore)
 
     // Dagger Hilt
-    kaptAndroidTest(LibraryAndroidTesting.dagger)
+    kaptAndroidTest(libs.dagger)
     // Hilt dependencies
-    implementation(LibraryAndroid.daggerHilt)
-    kapt(LibraryAndroid.daggerHiltCompiler)
+    implementation(libs.daggerHilt)
+    kapt(libs.daggerHiltCompiler)
 
-    implementation(LibraryAndroid.paging3)
-    implementation(LibraryAndroid.webSocket)
+    implementation(libs.paging3)
+    implementation(libs.webSocket)
+
+    implementation(libs.geoHash)
 }

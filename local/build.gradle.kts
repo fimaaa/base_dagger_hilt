@@ -4,29 +4,31 @@ plugins {
     id("kotlin-kapt")
 }
 
-apply("${project.rootDir}/common/android_common.gradle")
+apply("${project.rootDir}/library/common/android_common.gradle")
 android {
     namespace = "com.baseapp.local"
 }
 dependencies {
-    implementation(project(Modules.modelCommon))
-    implementation(project(Modules.modelCrypto))
-    implementation(project(Modules.modelEmployee))
+    implementation(project(Modules.Model.COMMON))
+    implementation(project(Modules.Model.CRYPTO))
+    implementation(project(Modules.Model.EMPLOYEE))
 
-    implementation(LibraryAndroid.gson)
+    implementation(libs.gson)
 
-    implementation(LibraryAndroid.paging3)
+    implementation(libs.paging3)
 
-    implementation(LibraryAndroid.roomRuntime)
-    annotationProcessor(LibraryAndroid.roomCompiler)
-    kapt(LibraryAndroid.roomCompiler)
-    implementation(LibraryAndroid.room)
-    implementation(LibraryAndroid.roomPaging)
-    testImplementation(LibraryAndroid.roomTesting)
+    implementation(libs.roomRuntime)
+    annotationProcessor(libs.roomCompiler)
+    kapt(libs.roomCompiler)
+    implementation(libs.room)
+    implementation(libs.roomPaging)
+    testImplementation(libs.roomTesting)
+
+    implementation(libs.androidXDataStore)
 
     // Dagger Hilt
-    kaptAndroidTest(LibraryAndroidTesting.dagger)
+    kaptAndroidTest(libs.dagger)
     // Hilt dependencies
-    implementation(LibraryAndroid.daggerHilt)
-    kapt(LibraryAndroid.daggerHiltCompiler)
+    implementation(libs.daggerHilt)
+    kapt(libs.daggerHiltCompiler)
 }

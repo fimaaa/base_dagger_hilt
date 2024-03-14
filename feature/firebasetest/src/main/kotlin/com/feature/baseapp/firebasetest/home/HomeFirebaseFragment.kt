@@ -1,8 +1,13 @@
 package com.feature.baseapp.firebasetest.home
 
-import com.basedagger.common.base.BaseBindingFragment
-import com.basedagger.common.extension.*
 import com.feature.baseapp.firebasetest.databinding.FragmentHomeBinding
+import com.general.common.base.BaseBindingFragment
+import com.general.common.extension.Toast_Default
+import com.general.common.extension.copyToClipboard
+import com.general.common.extension.isGPSReady
+import com.general.common.extension.safeCollect
+import com.general.common.extension.safeOnClikListener
+import com.general.common.extension.showSnackBar
 
 class HomeFirebaseFragment : BaseBindingFragment<FragmentHomeBinding, HomeFirebaseViewModel>() {
 

@@ -1,0 +1,97 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
+apply plugin: 'dagger.hilt.android.plugin'
+
+apply from: "${project.rootDir}/library/common/ktlint.gradle"
+
+android {
+    compileSdk Release.MAX_SDK
+
+    defaultConfig {
+        minSdkVersion Release.MIN_SDK
+        targetSdkVersion Release.MAX_SDK
+    }
+
+    buildTypes {
+        release {
+            buildConfigField "long", "VERSION_CODE", "${Release.VERSION_CODE}"
+            resValue "string","version_name","${Release.VERSION_APP_NAME}"
+            minifyEnabled true
+            testCoverageEnabled false
+            minifyEnabled true
+            testCoverageEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles "consumer-rules.pro"
+        }
+        preprod {
+            buildConfigField "long", "VERSION_CODE", "${Release.VERSION_CODE}"
+            resValue "string","version_name","${Release.VERSION_APP_NAME}-preprod"
+            minifyEnabled true
+            testCoverageEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles "consumer-rules.pro"
+        }
+        qa {
+            buildConfigField "long", "VERSION_CODE", "${Release.VERSION_CODE}"
+            resValue "string","version_name","${Release.VERSION_APP_NAME}-qa"
+            minifyEnabled true
+            testCoverageEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles "consumer-rules.pro"
+        }
+        debug {
+            buildConfigField "long", "VERSION_CODE", "${Release.VERSION_CODE}"
+            resValue "string","version_name","${Release.VERSION_APP_NAME}-dev"
+            minifyEnabled false
+            testCoverageEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles "consumer-rules.pro"
+        }
+        localhost {
+            buildConfigField "long", "VERSION_CODE", "${Release.VERSION_CODE}"
+            resValue "string","version_name","${Release.VERSION_APP_NAME}-local"
+            minifyEnabled false
+            testCoverageEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles "consumer-rules.pro"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+dependencies {
+    implementation libs.appCompat
+    implementation libs.kotlinX
+    // Dagger Hilt
+    kaptAndroidTest libs.dagger
+    // Hilt dependencies
+    implementation libs.daggerHilt
+    kapt libs.daggerHiltCompiler
+
+    implementation libs.timber
+
+//    // Hilt Jetpack Integrations
+//    implementation LibraryAndroid.daggerHiltViewmodel
+//    annotationProcessor LibraryAndroid.daggerHiltViewModelCompiler
+}
+
+kapt {
+    correctErrorTypes true
+}

@@ -1,5 +1,4 @@
 package com.stockbit.crypto.home
 
-import com.basedagger.common.base.BaseViewModel
-
+import com.general.common.base.BaseViewModel
 class HomeCryptoViewModel : BaseViewModel()
